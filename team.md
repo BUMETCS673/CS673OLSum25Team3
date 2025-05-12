@@ -1,0 +1,1 @@
+Hey! My name is Indra Sigicharla, and I'm a Master's student in Computer Science, and my focus is mainly AI/ML and NLP. I have hands-on experience with Python, PyTorch, and JavaScript, and have worked on projects like age, gender, and emotion recognition from speech, along with contributing to several research-driven initiatives.
