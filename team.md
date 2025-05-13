@@ -1,5 +1,3 @@
-Hey! My name is Indra Sigicharla, and I'm a Master's student in Computer Science, and my focus is mainly AI/ML and NLP. I have hands-on experience with Python, PyTorch, and JavaScript, and have worked on projects like age, gender, and emotion recognition from speech, along with contributing to several research-driven initiatives.
+## John Gutierrez
 
-Mengliang Tan
-
-My name is Mengliang Tan, and I'm a CS grad student at BU. I have a background in Anthropology and am new to CS. I'm excited to grow my skills and work with the team!
+I知 John Gutierrez, a motivated and passionate student pursuing a Master痴 degree in Software Development. I deeply value teamwork and lifelong learning, and I知 committed to making meaningful contributions to the team 3 project. Although I知 new to the tech industry, I知 excited to get into the field once I complete my degree. Through my coursework, I致e gained exposure to several programming languages, including C++, Java, Python, JavaScript, and HTML/CSS. I've worked on a few small-scale projects so far, and I知 eager to expand my skills further. This class is particularly exciting because it introduces terminologies, tools, and technologies that are still new to me. While shifting toward technology, I have spent nearly 16 years in supply chain and inventory management. I currently live in New York City and look forward to what lies ahead in this school session.
