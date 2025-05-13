@@ -12,3 +12,6 @@ I�m John Gutierrez, a motivated and passionate student pursuing a Master�s d
 Hongcheng Ding
 
 Hi! I'm a CS graduate student at Boston University. I have some experience with Java, HTML/CSS, JavaScript, and R. I'm looking forward to learning more and working with my team this semester!
+
+Uzay Isin Alici
+Hello. My name is Uzay. I am a graduate student at Boston University, specializing in cybersecurity. I enjoy learning about software engineering and real-world secure systems. I'm excited to collaborate with my team in this course.
