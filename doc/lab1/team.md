@@ -12,3 +12,7 @@ My name is Shaohua. I am pursing MSc in Computer Science. I used to be a Java pr
 # Jianing Li 
 
 My name is Jianing Li and I major in MSCS. I have a BS in mechanical engineering and am currently working in a startup as a product manager. We develop upper and lower limb prosthesis that are powered by biosensors. I have some experience with C++ and have done several school projects using Java, but I'm unfamiliar with most tech stacks. 
+
+# Jie Shi
+
+My name is Jie Shi, and I am currently pursuing a Master’s degree in Computer Science at Boston University. I hold a Bachelor's degree in Computer Science and Engineering from The Ohio State University. I have experience working with databases and programming languages such as C, Python, Java, R, and web development.
