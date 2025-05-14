@@ -1,2 +1,3 @@
-# GroupProjectTemplate
-Please make sure to modify this readme file as well as the "about" property of the project!
+# MyMedic
+
+MyMedic is a medical assistant app designed to help users manage prescriptions, track health appointments, and find nearby pharmacies and providers.
