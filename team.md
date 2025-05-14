@@ -20,3 +20,8 @@ Hello. My name is Uzay. I am a Master in CS student at Boston University, specia
 
 <h1>Tyler Gonsalves</h1>
 I'm Tyler, currently pursuing an MS in Software Development. Before coming to BU I completed my BS in Computer Engineering, and I've been working the aerospace industry for about 5 years as a Software Engineer. I've developed a variety of backend systems in Python (most recently) as well as Java/C++ for controlling a variety of computer systems and robots. I've also been dabbling in NodeJS mostly for data visualization.
+
+
+<h1>Adriel Domingo</h1>
+Hi, my name is Adriel. This is the last class I need for the MS in Software Development. My undergrad was in Computer Engineering. I currently work as a Test Engineer at Lockheed Martin. I have tinkered with Arduino before and I worked on a Arduino based security system as part of my Junior capstone. I currently live in new york state.I like to watch movies and play video games in my free time. I am looking forward to finishing my MSDS. 
+
