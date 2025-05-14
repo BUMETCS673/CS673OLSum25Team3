@@ -16,3 +16,6 @@ My name is Jianing Li and I major in MSCS. I have a BS in mechanical engineering
 # Jie Shi
 
 My name is Jie Shi, and I am currently pursuing a Master’s degree in Computer Science at Boston University. I hold a Bachelor's degree in Computer Science and Engineering from The Ohio State University. I have experience working with databases and programming languages such as C, Python, Java, R, and web development. I am looking forward work together with your guys.
+
+# Xiaoyao Yin
+My name is Xiaoyao Yin. I’m currently pursuing a degree in Computer Science with a concentration in security. My bachelor’s background is in Electrical Engineering, so I still have plenty to learn in the CS arena. Most of my previous work has involved low‑level programming, mainly writing C code for circuit‑board control.
