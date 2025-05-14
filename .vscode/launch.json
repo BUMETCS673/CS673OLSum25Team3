@@ -6,7 +6,7 @@
     "configurations": [
         {
             "type": "java",
-            "name": "GetActiveApplication",
+            "name": "Launch Server",
             "request": "launch",
             "mainClass": "com.bu.getactivecore.GetActiveApplication",
             "projectName": "getactivecore",
