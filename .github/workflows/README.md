@@ -30,7 +30,8 @@ Our CI pipeline runs automatically on every push and pull request to any branch.
 
 To run the CI workflow locally before pushing:
 
-1. Start a MySQL database: `cd ./code/database && docker build -t getactive-db . && docker run -d --name getactive-mysql -p 3306:3306 getactive-db`
+1. After cloning the repository, please run the following command to enable the project's Git hooks:`git config core.hooksPath .githooks`
+2. Start a MySQL database: `cd ./code/database && docker build -t getactive-db . && docker run -d --name getactive-mysql -p 3306:3306 getactive-db`
 3. Database management tool: MySQLWorkbench
 4. Run backend tests: `./gradlew test`
 5. Build backend: `./gradlew build -x test`

@@ -1,0 +1,40 @@
+#!/bin/bash
+
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[0;33m'
+BLUE='\033[0;34m'
+NC='\033[0m' # No Color
+
+echo -e "${BLUE}Checking commit message format...${NC}"
+
+COMMIT_MSG_FILE=$1
+COMMIT_MSG=$(cat "$COMMIT_MSG_FILE")
+
+TYPES="feat|fix|docs|style|refactor|test|other"
+
+SCOPES="frontend|backend|database|doc|demo|misc"
+
+if ! echo "$COMMIT_MSG" | grep -qE "^($TYPES)(\(($SCOPES)\))?: .+$"; then
+    echo -e "${RED}Error: Invalid commit message format!${NC}"
+    echo -e "${YELLOW}Commit message must follow the format:${NC}"
+    echo -e "${GREEN}<type>(<scope>): <subject>${NC}"
+    echo -e "${YELLOW}where:${NC}"
+    echo -e "  ${GREEN}type${NC}: $TYPES"
+    echo -e "  ${GREEN}scope${NC}: $SCOPES (optional)"
+    echo -e "  ${GREEN}subject${NC}: Brief description (within 50 characters)"
+    echo -e "\n${YELLOW}Examples:${NC}"
+    echo -e "  ${GREEN}feat(login): add user login feature${NC}"
+    echo -e "  ${GREEN}fix(api): fix bug in user info API${NC}"
+    echo -e "  ${GREEN}docs: update API documentation${NC}"
+    exit 1
+fi
+
+SUBJECT=$(echo "$COMMIT_MSG" | head -n1)
+if [ ${#SUBJECT} -gt 50 ]; then
+    echo -e "${RED}Error: Commit subject line is too long (${#SUBJECT} > 50 characters)${NC}"
+    exit 1
+fi
+
+echo -e "${GREEN}Commit message format is valid!${NC}"
+exit 0
