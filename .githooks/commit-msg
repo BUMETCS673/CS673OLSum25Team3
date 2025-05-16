@@ -9,11 +9,12 @@ NC='\033[0m' # No Color
 echo -e "${BLUE}Checking commit message format...${NC}"
 
 COMMIT_MSG_FILE=$1
-COMMIT_MSG=$(cat "$COMMIT_MSG_FILE")
+echo "${COMMIT_MSG_FILE}"
+COMMIT_MSG=$(echo "$COMMIT_MSG_FILE")
 
 TYPES="feat|fix|docs|style|refactor|test|other"
 
-SCOPES="frontend|backend|database|doc|demo|misc"
+SCOPES="frontend|backend|database|ci|doc|demo|misc"
 
 if ! echo "$COMMIT_MSG" | grep -qE "^($TYPES)(\(($SCOPES)\))?: .+$"; then
     echo -e "${RED}Error: Invalid commit message format!${NC}"
