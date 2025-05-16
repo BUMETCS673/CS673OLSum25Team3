@@ -20,7 +20,6 @@ repositories {
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-web'
-    implementation 'com.mysql:mysql-connector-j' // MySQL JDBC driver
     runtimeOnly 'com.h2database:h2' // H2 database for in-memory testing
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
