@@ -31,7 +31,7 @@ jobs:
       
       - name: Initialize database
         run: |
-          mysql -h127.0.0.1 -P3306 -uroot -ppassword getactive < ./code/01-init.sql
+          mysql -h127.0.0.1 -P3306 -uroot -ppassword getactive < ./code/database/01-init.sql
       
       - name: Setup JDK
         uses: actions/setup-java@v3
