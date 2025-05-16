@@ -10,15 +10,13 @@
       "extensions": [
         "vscjava.vscode-java-pack",
         "ms-vscode.gradle",
-        "esbenp.prettier-vscode",
-        "dbaeumer.vscode-eslint",
         "ms-azuretools.vscode-docker",
         "eamodio.gitlens",
         "mhutchie.git-graph"
       ]
     }
   },
-  "forwardPorts": [3232, 8080],
+  "forwardPorts": [3232],
 
   // uncomment once we start implementing 
   // "postCreateCommand": "cd frontend && npm install",
