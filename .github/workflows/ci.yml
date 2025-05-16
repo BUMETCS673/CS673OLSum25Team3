@@ -56,7 +56,7 @@ jobs:
         run: |
           ./gradlew build -x test
           
-          nohup java -jar build/libs/getactive-0.0.1-SNAPSHOT.jar \
+          nohup java -jar build/libs/getactivecore-0.0.1-SNAPSHOT.jar \
             --spring.datasource.url=jdbc:mysql://localhost:3306/getactive \
             --spring.datasource.username=root \
             --spring.datasource.password=password \
@@ -64,10 +64,7 @@ jobs:
           
           echo "Waiting for backend service to start..."
           for i in {1..30}; do
-            RESPONSE=$(curl -s http://localhost:3232/v1/health)
-            echo "Attempt $i - Response: $RESPONSE"
-            
-            if echo "$RESPONSE" | grep -q "UP"; then
+            if curl -s http://localhost:3232/v1/health | grep -q "UP"; then
               echo "Backend service is up!"
               break
             fi
