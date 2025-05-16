@@ -20,7 +20,7 @@
   },
   "forwardPorts": [3232, 8080],
 
-  // uncomment once we start implementing 
-  // "postCreateCommand": "cd frontend && npm install",
+  "postCreateCommand": "chmod +x gradlew",
+  
   "remoteUser": "vscode"
 }
