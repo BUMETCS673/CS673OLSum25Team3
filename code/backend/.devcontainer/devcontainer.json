@@ -1,8 +1,18 @@
 {
-  "name": "GetActive DevContainer",
+  "name": "Server DevContainer",
   "build": {
     "dockerfile": "Dockerfile",
     "context": ".."
+  },
+  "mounts": [
+    "type=bind,source=/var/run/docker.sock,target=/var/run/docker.sock"
+  ],
+  "features": {
+    "ghcr.io/devcontainers/features/docker-in-docker:2": {
+      "version": "latest",
+      "enableNonRootDocker": "true",
+      "moby": "true"
+    }
   },
   "customizations": {
     "vscode": {
@@ -12,13 +22,16 @@
         "ms-vscode.gradle",
         "ms-azuretools.vscode-docker",
         "eamodio.gitlens",
-        "mhutchie.git-graph"
+        "mhutchie.git-graph",
+        "streetsidesoftware.code-spell-checker"
       ]
     }
   },
-  "forwardPorts": [3232],
-
-  // uncomment once we start implementing 
-  // "postCreateCommand": "cd frontend && npm install",
-  "remoteUser": "vscode"
+  "forwardPorts": [
+    3232
+  ],
+  // Ensure the user inside the container can access the Docker socket
+  "postStartCommand": "sudo chown vscode:docker /var/run/docker.sock || sudo chmod 666 /var/run/docker.sock",
+  "remoteUser": "vscode",
+  "privileged": true
 }
