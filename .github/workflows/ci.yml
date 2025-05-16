@@ -64,7 +64,10 @@ jobs:
           
           echo "Waiting for backend service to start..."
           for i in {1..30}; do
-            if curl -s http://localhost:3232/v1/health | grep -q "UP"; then
+            RESPONSE=$(curl -s http://localhost:3232/v1/health)
+            echo "Attempt $i - Response: $RESPONSE"
+            
+            if echo "$RESPONSE" | grep -q "UP"; then
               echo "Backend service is up!"
               break
             fi
