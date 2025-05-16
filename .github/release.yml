@@ -2,6 +2,13 @@ changelog:
   exclude:
     labels:
       - skip-changelog
+      - documentation
+      - duplicate
+      - good-firs-issue
+      - help-wanted
+      - wontfix
+      - invalid
+      - question
     authors:
       - dependabot[bot]
   categories:
