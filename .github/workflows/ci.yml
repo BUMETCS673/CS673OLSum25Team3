@@ -1,0 +1,94 @@
+name: CI Tests
+
+on:
+  push:
+    branches: ['**']
+  pull_request:
+    branches: ['**']
+    types: [opened, synchronize, reopened]
+
+jobs:
+  integrated-test:
+    name: Integrated Tests
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+    
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: password
+          MYSQL_DATABASE: getactive
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping -h localhost"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Initialize database
+        run: |
+          mysql -h127.0.0.1 -P3306 -uroot -ppassword getactive < ./code/database/01-init.sql
+      
+      - name: Setup JDK
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'zulu'
+      
+      - name: Setup Gradle
+        uses: gradle/gradle-build-action@v2
+      
+      - name: Run backend tests
+        working-directory: ./code/backend/getactivecore
+        run: |
+          ./gradlew test
+        env:
+          SPRING_DATASOURCE_URL: jdbc:mysql://localhost:3306/getactive
+          SPRING_DATASOURCE_USERNAME: root
+          SPRING_DATASOURCE_PASSWORD: password
+      
+      - name: Build and start backend service
+        working-directory: ./code/backend/getactivecore
+        run: |
+          ./gradlew build -x test
+          
+          nohup java -jar build/libs/getactivecore-0.0.1-SNAPSHOT.jar \
+            > backend.log 2>&1 &
+          
+          echo "Waiting for backend service to start..."
+          for i in {1..30}; do
+            if curl -s http://localhost:3232/v1/health | grep -q "UP"; then
+              echo "Backend service is up!"
+              break
+            fi
+            
+            if [ $i -eq 30 ]; then
+              echo "Backend service failed to start within timeout"
+              cat backend.log
+              exit 1
+            fi
+            
+            echo "Waiting... ($i/30)"
+            sleep 2
+          done
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+          cache-dependency-path: './code/frontend/package-lock.json'
+      
+      - name: Run frontend tests
+        working-directory: ./code/frontend/
+        run: |
+          npm ci
+          npm run test
