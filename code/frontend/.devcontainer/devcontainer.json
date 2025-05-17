@@ -4,7 +4,6 @@
         "dockerfile": "Dockerfile",
         "context": ".."
     },
-    "forwardPorts": [5173],
     "customizations": {
       "vscode": {
         "settings": {
@@ -18,6 +17,9 @@
         ]
       }
     },
+    "forwardPorts": [
+      5173
+    ],
     "postCreateCommand": "npm install",
     "remoteUser": "root"
   }
