@@ -32,7 +32,7 @@ To run the CI workflow locally before pushing:
 
 1. After cloning the repository, please run the following command to enable the project's Git hooks:`chmod +x .githooks/pre-commit && git config core.hooksPath .githooks`
 2. Start a MySQL database: `cd ./code/database && docker build -t getactive-db . && docker run -d --name getactive-mysql -p 3306:3306 getactive-db`
-3. Database management tool: MySQLWorkbench
+3. Database management tool: MySQLWorkbench. username: root, password: password
 4. Run backend tests: `./gradlew test`
 5. Build backend: `./gradlew build -x test`
 6. Start backend service: `java -jar build/libs/getactivecore-0.0.1-SNAPSHOT.jar` and verify health check at http://localhost:3232/v1/health
