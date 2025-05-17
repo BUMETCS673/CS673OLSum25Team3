@@ -5,11 +5,15 @@ on:
     branches: ['**']
   pull_request:
     branches: ['**']
+    types: [opened, synchronize, reopened]
 
 jobs:
   integrated-test:
     name: Integrated Tests
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
     
     services:
       mysql:
