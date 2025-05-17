@@ -59,6 +59,7 @@ jobs:
       if: matrix.language == 'javascript'
       working-directory: ./code/frontend/
       run: |
+        npm install
         npm run build
 
     - name: Perform CodeQL Analysis
