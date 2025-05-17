@@ -21,7 +21,6 @@
         "vscjava.vscode-java-pack",
         "ms-vscode.gradle",
         "ms-azuretools.vscode-docker",
-        "eamodio.gitlens",
         "mhutchie.git-graph",
         "streetsidesoftware.code-spell-checker"
       ]
