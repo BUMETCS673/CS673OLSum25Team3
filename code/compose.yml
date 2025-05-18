@@ -14,13 +14,14 @@ services:
     # this volume)
     volumes:
       - db-data:/db-data
-    # When running in development mode, sync the source code with the container
+    # When running in development mode, rebuild the app image and watch for changes
+    # in the backend and frontend directories
     develop:
       watch:
-        - action: sync
+        - action: rebuild
           path: ./mymedic-backend
           target: /home/mymedic/mymedic-backend
-        - action: sync
+        - action: rebuild
           path: ./mymedic-frontend
           target: /home/mymedic/mymedic-frontend
   # This is the database service running SQLite
