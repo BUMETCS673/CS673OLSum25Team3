@@ -1,0 +1,37 @@
+[build-system]
+requires = ["setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "mymedic-backend"
+dynamic = ["version"]
+dependencies = [
+  "django"
+]
+requires-python = ">=3.12"
+
+authors = [
+  {name = "Tyler Gonasalves", email = "tjg@bu.edu"},
+  {name = "Indra Sigicharla"},
+  {name = "Adriel Domingo"},
+  {name = "Mengliang Tan"},
+  {name = "Uzay Isin Alici"},
+  {name = "Hongcheng Ding"},
+]
+
+description = "MyMedic Backend Application"
+readme = "README.md"
+license = "MIT"
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Programming Language :: Python",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3 :: Only",
+  "Programming Language :: Python :: 3.12",
+]
+
+[project.urls]
+Repository = "https://github.com/BUMETCS673/CS673OLSum25Team3"
+
+[project.scripts]
+run-mymedic = "mymedic_backend.cli.main:main"
