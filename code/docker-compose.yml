@@ -16,6 +16,8 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+    networks:
+      - backend-network
 
   backend:
     build:
@@ -25,28 +27,42 @@ services:
     depends_on:
       db:
         condition: service_healthy
-    # environment:
-    #   SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/getactive
-    #   SPRING_DATASOURCE_USERNAME: root
-    #   SPRING_DATASOURCE_PASSWORD: password
-    ports:
-      - "3232:3232"
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:3232/v1/health"]
       interval: 10s
       timeout: 5s
       retries: 5
+    networks:
+      - backend-network
+      - frontend-network
 
   frontend:
     build:
       context: ./frontend
       dockerfile: Dockerfile
-    container_name: getactive-frontend
+    image: getactive-frontend:latest
+    restart: "no"
     depends_on:
-      backend:
-        condition: service_healthy
+      - backend
+
+  nginx:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    container_name: getactive-nginx
+    depends_on:
+      - frontend
+      - backend
     ports:
       - "80:80"
+    networks:
+      - frontend-network
+
+networks:
+  frontend-network:
+    driver: bridge
+  backend-network:
+    driver: bridge
 
 volumes:
   mysql_data: 

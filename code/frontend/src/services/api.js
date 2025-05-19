@@ -3,7 +3,7 @@ import axios from 'axios';
 import { jwtUtils } from '../utils/jwt';
 
 const api = axios.create({
-  baseURL: 'http://localhost:3232',
+  baseURL: '/v1',
   timeout: 5000,
 });
 

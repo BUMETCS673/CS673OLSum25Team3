@@ -1,21 +1,25 @@
-FROM node:18-alpine as build
+FROM node:18-alpine as builder
 
 WORKDIR /app
 
+# Copy package files
 COPY package*.json ./
-
 RUN npm ci
 
+# Copy source code
 COPY . .
 
+# Build the application
 RUN npm run build
 
-FROM nginx:alpine
+# Output stage - this stage is just for copying the build output
+FROM alpine:latest
 
-COPY --from=build /app/dist /usr/share/nginx/html
+# Create a directory for the build output
+WORKDIR /build-output
 
-COPY nginx.conf /etc/nginx/conf.d/default.conf
+# Copy only the built files from the builder stage
+COPY --from=builder /app/dist ./dist
 
-EXPOSE 80
-
-CMD ["nginx", "-g", "daemon off;"]
+# This image doesn't need to run anything
+# It's just a way to pass the build output to other images
