@@ -11,6 +11,7 @@ RUN ./gradlew --no-daemon bootJar || return 0  # build fails if no source yet
 
 # Copy source
 COPY getactivecore/src /app/src
+COPY getactivecore/application.properties /app/application.properties
 
 # Build the application
 RUN ./gradlew clean bootJar --no-daemon
@@ -23,7 +24,7 @@ WORKDIR /app
 
 # Copy the built JAR from the builder
 COPY --from=builder /app/build/libs/*.jar app.jar
-
+COPY --from=builder /app/application.properties application.properties
 # Port the server listens at
 EXPOSE 3232
 

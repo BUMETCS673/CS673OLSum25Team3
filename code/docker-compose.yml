@@ -1,0 +1,52 @@
+version: '3.8'
+
+services:
+
+  db:
+    build:
+      context: ./database
+      dockerfile: Dockerfile
+    container_name: getactive-db
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-ppassword"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: getactive-backend
+    depends_on:
+      db:
+        condition: service_healthy
+    # environment:
+    #   SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/getactive
+    #   SPRING_DATASOURCE_USERNAME: root
+    #   SPRING_DATASOURCE_PASSWORD: password
+    ports:
+      - "3232:3232"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3232/v1/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: getactive-frontend
+    depends_on:
+      backend:
+        condition: service_healthy
+    ports:
+      - "80:80"
+
+volumes:
+  mysql_data: 
