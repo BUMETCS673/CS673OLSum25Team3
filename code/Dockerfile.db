@@ -1,0 +1,11 @@
+FROM alpine:3.21
+
+# Install dependencies
+RUN apk update && apk add --no-cache \
+    sqlite
+
+# Mount a volume to persist the database
+VOLUME [ "/db-data" ]
+
+# RUN sqlite3 CLI to inspect the database
+CMD ["echo", "Hello from SQLite!"]

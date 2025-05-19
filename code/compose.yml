@@ -1,0 +1,46 @@
+services:
+  # This is the main application service running the backend and frontend
+  app:
+    # Build the application image from the Dockerfile
+    build:
+      context: .
+      dockerfile: Dockerfile.app
+    image: mymedic-app:latest
+    container_name: mymedic-app
+    # Expose the application on port 8080
+    ports:
+      - "8080:5000"
+    # Mount a volume for the persistent database (the db service and app service share 
+    # this volume)
+    volumes:
+      - db-data:/db-data
+    # When running in development mode, rebuild the app image and watch for changes
+    # in the backend and frontend directories
+    develop:
+      watch:
+        - action: rebuild
+          path: ./mymedic-backend
+          target: /home/mymedic/mymedic-backend
+        - action: rebuild
+          path: ./mymedic-frontend
+          target: /home/mymedic/mymedic-frontend
+  # This is the database service running SQLite
+  db:
+    # Build the database image from the Dockerfile
+    build: 
+      context: .
+      dockerfile: Dockerfile.db
+    image: mymedic-db:latest
+    container_name: mymedic-db
+    # Mount a volume for the persistent database
+    volumes:
+      - db-data:/db-data
+
+volumes:
+  # This volume is used to persist the SQLite database
+  db-data:
+    driver: local
+    driver_opts:
+      type: none
+      device: ./db-data
+      o: bind
