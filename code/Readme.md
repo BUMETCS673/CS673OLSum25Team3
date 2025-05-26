@@ -1,14 +1,9 @@
-# Directory Contents
-This folder contains all source code and test code.
+docker build -t mymedic:master .
 
-# MyMedic Container Usage
-**Development Mode Deployment**
-Once cloned to your machine, run `docker compose up --watch` to create the containers and 
-volume. The volume is used to store the persistent data for the database. The
-frontend and backend run in one container (mymedic-app) and command line access to
-the database is maintained with the database container (mymedic-db). The `--watch` option
-will syncronize source code in the container with your local machine.
+docker run -it --rm -v sqlite:/sqlite mymedic:master python manage.py createsuperuser
 
-Once the docker containers are running, you may access the MyMedic App frontend at
-`https://localhost:8080`
+docker run -it --rm -v sqlite:/sqlite mymedic:master python manage.py runserver 0.0.0.0:8000
 
+docker run -it --rm -p 8000:8000 -v sqlite:/sqlite -v %cd%\website:/usr/src/website mymedic:master python manage.py runserver 0.0.0.0:8000
+
+docker run --rm mymedic:master ./pytest.sh

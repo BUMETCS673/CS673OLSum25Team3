@@ -1,0 +1,9 @@
+[run]
+relative_files = True
+omit =
+    */migrations/*
+
+[report]
+exclude_lines =
+  pragma: no cover
+  def __repr__
