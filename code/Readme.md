@@ -16,8 +16,7 @@ cd CS673OLSum25Team3
 cp .env.example .env
 ```
 
-Edit `.env` with appropriate development values as needed. Do not commit your `.env` file.
-
+Edit `.env` and add a DJANGO_SECRET_KEY generated from [Django Secret Key Generator](https://djecrety.ir/).
 ---
 
 ### 3. Build the Docker Image
@@ -50,14 +49,15 @@ docker run -it --rm -v sqlite:/sqlite mymedic:master python manage.py createsupe
 docker run -it --rm -p 8000:8000 -v sqlite:/sqlite -v %cd%\website:/usr/src/website mymedic:master python manage.py runserver 0.0.0.0:8000
 ```
 
-This binds the local website code into the container and serves it at `http://localhost:8000`.
+This binds the local website code into the container and serves it at `http://127.0.0.1:8080`.
 
 ---
 
 ### 7. Run Tests
 
 ```bash
-docker run --rm mymedic:master ./pytest.sh
+docker run --rm mymedic:master pytest -v tests/
+
 ```
 
 ---

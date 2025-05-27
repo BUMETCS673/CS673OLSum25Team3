@@ -4,7 +4,6 @@ async function signup() {
   const username = document.getElementById("signup-user").value.trim();
   const password = document.getElementById("signup-pass").value;
 
-  // Basic validation
   if (!username || !password) {
     messageElement.innerText = "Please fill in all fields.";
     messageElement.className = "text-danger mt-3 text-center";
@@ -17,7 +16,6 @@ async function signup() {
     return;
   }
 
-  // Show loading state
   const originalText = signupButton.innerText;
   signupButton.disabled = true;
   signupButton.innerText = "Creating Account...";
@@ -54,7 +52,6 @@ async function signup() {
   }
 }
 
-// Allow Enter key to submit
 document.addEventListener('DOMContentLoaded', function() {
   document.getElementById("signup-pass").addEventListener('keypress', function(e) {
     if (e.key === 'Enter') {

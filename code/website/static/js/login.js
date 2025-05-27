@@ -4,13 +4,11 @@ async function login() {
   const username = document.getElementById("login-user").value.trim();
   const password = document.getElementById("login-pass").value;
 
-  // Basic validation
   if (!username || !password) {
     messageElement.innerText = "Please fill in all fields.";
     return;
   }
 
-  // Show loading state
   const originalText = loginButton.innerText;
   loginButton.disabled = true;
   loginButton.innerText = "Logging in...";
@@ -48,7 +46,6 @@ async function login() {
   }
 }
 
-// Allow Enter key to submit
 document.addEventListener('DOMContentLoaded', function() {
   document.getElementById("login-pass").addEventListener('keypress', function(e) {
     if (e.key === 'Enter') {

@@ -1,56 +1,293 @@
 body {
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   min-height: 100vh;
-  text-align: center;
-  padding-top: 100px;
   margin: 0;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
 }
 
-.dashboard {
-  max-width: 700px;
-  margin: 0 auto;
-  background: rgba(255, 255, 255, 0.95);
-  padding: 3rem;
-  border-radius: 20px;
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
+/* Header */
+.dashboard-header {
+  background: rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(10px);
-  transition: transform 0.3s ease;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 1rem 0;
 }
 
-.dashboard:hover {
-  transform: translateY(-5px);
+.header-title {
+  color: rgb(170, 255, 222);
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0;
 }
 
-.display-4 {
-  margin-bottom: 1.5rem;
-  background: linear-gradient(45deg, #28a745, #20c997);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+.user-profile {
+  display: flex;
+  align-items: center;
+  color: white;
 }
 
-.lead {
-  color: #6c757d;
+.user-avatar {
+  width: 40px;
+  height: 40px;
+  background: linear-gradient(45deg, #20b2aa, #008b8b);
+  border-radius: 50%;
+  margin-right: 0.75rem;
+}
+
+.username {
+  font-weight: 600;
+  margin-right: 0.5rem;
+}
+
+/* Main Content */
+.dashboard-main {
+  padding: 2rem 0;
+}
+
+/* Welcome Section */
+.welcome-section {
   margin-bottom: 2rem;
-  font-size: 1.2rem;
 }
 
-.btn {
-  border-radius: 10px;
-  padding: 0.75rem 2rem;
+.welcome-card {
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 15px;
+  padding: 2rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(10px);
+}
+
+.welcome-title {
+  color: #343a40;
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.welcome-subtitle {
+  color: #6c757d;
+  font-size: 1.1rem;
+  margin-bottom: 0;
+}
+
+.next-appointment {
+  text-align: right;
+}
+
+.appointment-label {
+  color: #6c757d;
+  font-size: 0.9rem;
+  display: block;
+}
+
+.appointment-date {
+  color: #20b2aa;
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+
+.appointment-time {
+  color: #6c757d;
+  font-size: 1rem;
+}
+
+/* Stats Section */
+.stats-section {
+  margin-bottom: 2rem;
+}
+
+.stat-card {
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 15px;
+  padding: 1.5rem;
+  text-align: center;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(10px);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.stat-card:hover {
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+}
+
+.stat-icon {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  margin: 0 auto 1rem;
+}
+
+.stat-icon.upcoming {
+  background: linear-gradient(45deg, #20b2aa, #008b8b);
+}
+
+.stat-icon.records {
+  background: linear-gradient(45deg, #667eea, #764ba2);
+}
+
+.stat-icon.prescriptions {
+  background: linear-gradient(45deg, #f093fb, #f5576c);
+}
+
+.stat-icon.messages {
+  background: linear-gradient(45deg, #4facfe, #00f2fe);
+}
+
+.stat-number {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #343a40;
+  display: block;
+}
+
+.stat-label {
+  color: #6c757d;
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+/* Actions Section */
+.actions-section {
+  margin-bottom: 2rem;
+}
+
+.section-title {
+  color: white;
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+}
+
+.action-card {
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 15px;
+  padding: 2rem;
+  text-align: center;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(10px);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  height: 100%;
+}
+
+.action-card:hover {
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+}
+
+.action-icon {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  margin: 0 auto 1.5rem;
+}
+
+.action-icon.schedule {
+  background: linear-gradient(45deg, #20b2aa, #008b8b);
+}
+
+.action-title {
+  color: #343a40;
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.action-description {
+  color: #6c757d;
+  margin-bottom: 1.5rem;
+}
+
+/* Activity Section */
+.activity-section {
+  margin-bottom: 2rem;
+}
+
+.activity-card {
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 15px;
+  padding: 2rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(10px);
+}
+
+.activity-item {
+  display: flex;
+  align-items: flex-start;
+  padding: 1rem 0;
+  border-bottom: 1px solid #e9ecef;
+}
+
+.activity-item:last-child {
+  border-bottom: none;
+}
+
+.activity-icon {
+  width: 40px;
+  height: 40px;
+  background: linear-gradient(45deg, #20b2aa, #008b8b);
+  border-radius: 50%;
+  margin-right: 1rem;
+  flex-shrink: 0;
+}
+
+.activity-content {
+  flex: 1;
+}
+
+.activity-title {
+  color: #343a40;
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.activity-description {
+  color: #6c757d;
+  margin-bottom: 0.5rem;
+}
+
+.activity-time {
+  color: #20b2aa;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+/* Buttons */
+.btn-primary {
+  background-color: #20b2aa !important;
+  border-color: #20b2aa !important;
+  border-radius: 8px;
   font-weight: 600;
   transition: all 0.3s ease;
-  box-shadow: 0 5px 15px rgba(220, 53, 69, 0.3);
 }
 
-.btn:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 8px 25px rgba(220, 53, 69, 0.4);
+.btn-primary:hover {
+  background-color: #1a9999 !important;
+  border-color: #1a9999 !important;
+  box-shadow: 0 5px 15px rgba(32, 178, 170, 0.3);
 }
 
-.btn:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-  transform: none;
+.btn-outline-light {
+  border-radius: 8px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.btn-outline-light:hover {
+  box-shadow: 0 5px 15px rgba(255, 255, 255, 0.3);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .welcome-title {
+    font-size: 1.5rem;
+  }
+  
+  .next-appointment {
+    text-align: left;
+    margin-top: 1rem;
+  }
+  
+  .dashboard-main {
+    padding: 1rem 0;
+  }
 }
