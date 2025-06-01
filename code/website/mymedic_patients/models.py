@@ -12,7 +12,7 @@ class Patient(models.Model):
     Prompt: N/A
     Generated on: 2025-06-01
     Modified by: Tyler Gonsalves
-    Modifications: Added fields for phone number, date of birth, dependents.
+    Modifications: Allowed blank and null for email and date_of_birth,
     Verified:  Unit tested, reviewed
     """
     user = models.ForeignKey(
