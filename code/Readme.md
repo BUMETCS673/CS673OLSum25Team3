@@ -22,42 +22,28 @@ Edit `.env` and add a DJANGO_SECRET_KEY generated from [Django Secret Key Genera
 ### 3. Build the Docker Image
 
 ```bash
-docker build -t mymedic:master .
+docker build -t mymedic .
 ```
 
 ---
 
-### 4. Apply Migrations
+### 4. Run the Server
 
+#### Running Tests
 ```bash
-docker run -it --rm -v sqlite:/sqlite mymedic:master python manage.py migrate
+docker run --rm mymedic pytest -v tests/
 ```
 
----
-
-### 5. Create a Superuser (optional)
+#### Run in Development Mode
 
 ```bash
-docker run -it --rm -v sqlite:/sqlite mymedic:master python manage.py createsuperuser
+docker compose -f docker-compose-dev.yml up -d
 ```
 
----
-
-### 6. Run the Development Server
+#### Run in Production Mode
 
 ```bash
-docker run -it --rm -p 8000:8000 -v sqlite:/sqlite -v %cd%\website:/usr/src/website mymedic:master python manage.py runserver 0.0.0.0:8000
+docker compose up -d
 ```
 
 This binds the local website code into the container and serves it at `http://127.0.0.1:8080`.
-
----
-
-### 7. Run Tests
-
-```bash
-docker run --rm mymedic:master pytest -v tests/
-
-```
-
----
