@@ -45,8 +45,14 @@ docker run -it --rm -v sqlite:/sqlite mymedic:master python manage.py createsupe
 
 ### 6. Run the Development Server
 
+####Windows:
 ```bash
 docker run -it --rm -p 8000:8000 -v sqlite:/sqlite -v %cd%\website:/usr/src/website mymedic:master python manage.py runserver 0.0.0.0:8000
+```
+
+####MacOS:
+```bash
+docker run -it --rm -p 8000:8000 -v sqlite:/sqlite -v $(pwd)/website:/usr/src/website mymedic:master python manage.py runserver 0.0.0.0:8000
 ```
 
 This binds the local website code into the container and serves it at `http://127.0.0.1:8080`.
