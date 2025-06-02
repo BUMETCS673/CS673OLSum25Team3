@@ -3,8 +3,11 @@ async function signup() {
   const messageElement = document.getElementById("signup-msg");
   const username = document.getElementById("signup-user").value.trim();
   const password = document.getElementById("signup-pass").value;
+  const firstname = document.getElementById("signup-firstname").value.trim();
+  const lastname = document.getElementById("signup-lastname").value.trim();
+  const email = document.getElementById("signup-email").value.trim();
 
-  if (!username || !password) {
+  if (!username || !password || !firstname || !lastname) {
     messageElement.innerText = "Please fill in all fields.";
     messageElement.className = "text-danger mt-3 text-center";
     return;
@@ -27,7 +30,10 @@ async function signup() {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         username: username,
-        password: password
+        password: password,
+        firstname: firstname,
+        lastname: lastname,
+        email: email
       })
     });
 

@@ -4,6 +4,7 @@ from rest_framework.response import Response
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
 from rest_framework_simplejwt.tokens import RefreshToken
+from mymedic_patients.models import Patient
 
 # HTML pages
 def login_page(request):
@@ -24,6 +25,12 @@ def register(request):
     if User.objects.filter(username=username).exists():
         return Response({"error": "User already exists"}, status=400)
     User.objects.create_user(username=username, password=password)
+    Patient.objects.create(
+        user=User.objects.get(username=username),
+        first_name=request.data.get("first_name", ""),
+        last_name=request.data.get("last_name", ""),
+        email=request.data.get("email", "")
+    )
     return Response({"message": "User created successfully"})
 
 @api_view(['POST'])

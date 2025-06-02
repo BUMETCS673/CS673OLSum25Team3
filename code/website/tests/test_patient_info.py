@@ -7,7 +7,7 @@ Prompt: N/A
 Generated on: 2025-06-01
 Modified by: Tyler Gonsalves
 Modifications: Added steps to inject user, fixed assertions for validating patient
-               info, added docstrings
+               info, added docstrings, added test for patient info creation on signup
 Verified:  Unit tested, reviewed
 """
 import pytest
