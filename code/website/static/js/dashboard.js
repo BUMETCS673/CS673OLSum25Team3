@@ -13,6 +13,19 @@ function logout() {
   }, 500);
 }
 
+async function edit_profile() {
+  const editButton = document.querySelector('button[onclick="edit_profile()"]');
+  
+  if (editButton) {
+    editButton.disabled = true;
+    editButton.innerText = "Editing profile...";
+  }
+
+  setTimeout(() => {
+    window.location.href = "/edit_profile/";
+  }, 500);
+}
+
 document.addEventListener('DOMContentLoaded', function() {
   
   const scheduleButtons = document.querySelectorAll('.action-card .btn');

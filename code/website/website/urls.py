@@ -1,6 +1,7 @@
 from django.contrib import admin
 from django.urls import path
 from . import views
+from mymedic_patients import views as patient_views
 from django.shortcuts import redirect
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -8,6 +9,8 @@ urlpatterns = [
     path('signup/', views.signup_page, name="signup_page"),
     path('api/login/', views.login, name="login"),
     path('api/register/', views.register, name="register"),
+    path("edit_profile/", patient_views.edit_profile, name="edit_profile"),
+    path("api/submit_edits/", patient_views.submit_edits, name="submit_edits"),
     path("dashboard/", views.dashboard, name="dashboard"),
     path('', lambda request: redirect('/login/')),
 ]

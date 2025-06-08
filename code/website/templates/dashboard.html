@@ -10,6 +10,7 @@
 </head>
 <body>
   <!-- Header -->
+  <script src="{% static 'js/dashboard.js' %}"></script>
   <header class="dashboard-header">
     <div class="container-fluid">
       <div class="row align-items-center">
@@ -21,6 +22,7 @@
             <div class="user-avatar"></div>
             <span class="username">John Doe</span>
             <button class="btn btn-outline-light btn-sm ms-3" onclick="logout()">Logout</button>
+            <button class="btn btn-outline-light btn-sm ms-3" onclick="edit_profile()">Edit Profile</button>
           </div>
         </div>
       </div>
@@ -168,7 +170,5 @@
 
     </div>
   </main>
-
-  <script src="{% static 'js/dashboard.js' %}"></script>
 </body>
 </html>
