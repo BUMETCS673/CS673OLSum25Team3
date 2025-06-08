@@ -64,4 +64,19 @@ document.addEventListener('DOMContentLoaded', function() {
       signup();
     }
   });
+  document.getElementById("signup-firstname").addEventListener('keypress', function(e) {
+    if (e.key === 'Enter') {
+      signup();
+    }
+  });
+  document.getElementById("signup-lastname").addEventListener('keypress', function(e) {
+    if (e.key === 'Enter') {
+      signup();
+    }
+  });
+  document.getElementById("signup-email").addEventListener('keypress', function(e) {
+    if (e.key === 'Enter') {
+      signup();
+    }
+  });
 });

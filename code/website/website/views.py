@@ -27,8 +27,8 @@ def register(request):
     User.objects.create_user(username=username, password=password)
     Patient.objects.create(
         user=User.objects.get(username=username),
-        first_name=request.data.get("first_name", ""),
-        last_name=request.data.get("last_name", ""),
+        first_name=request.data.get("firstname", ""),
+        last_name=request.data.get("lastname", ""),
         email=request.data.get("email", "")
     )
     return Response({"message": "User created successfully"})
