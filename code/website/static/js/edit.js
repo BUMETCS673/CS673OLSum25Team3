@@ -1,4 +1,4 @@
-async function edit() {
+async function submit_edit() {
   const editButton = document.querySelector('button');
   const messageElement = document.getElementById("edit-msg");
   const firstname = document.getElementById("edit-firstname").value.trim();
@@ -23,6 +23,9 @@ async function edit() {
 
     const data = await res.json();
     console.log(data);
+    
+    messageElement.innerText = "Profile updated successfully!";
+    messageElement.className = "text-success mt-3 text-center";
     
   } catch (error) {
     messageElement.innerText = "Network error. Please check your connection.";

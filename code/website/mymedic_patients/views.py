@@ -1,42 +1,55 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render
 from rest_framework.decorators import api_view
-from rest_framework_simplejwt.backends import TokenBackend
-from .models import Patient
+from .forms import EditProfileForm
 from django.http import HttpResponse
+from .models import Patient
+from django.contrib.auth.models import AnonymousUser
 # Create your views here.
+
 def edit_profile(request):
-    print("Edit profile view accessed")
-    token = request.GET.get('token', None)
-    print(f"Token received: {token}")
-    patient_data = Patient.objects.all()[0]
-    user = patient_data.user if patient_data else None
-    return render(request, "edit_profile.html", {"user": user, "patient": patient_data})
-    # if not token:
-    #     print("No token provided")
-    # try:
-    #     # Validate the token
-    #     token_backend = TokenBackend(algorithm='HS256')
-    #     validated_token = token_backend.decode(token, verify=True)
-    #     user = validated_token.get('user')
-    #     if not user:
-    #         print("Invalid token or user not found")
-    #         return HttpResponse("Invalid token or user not found", status=401)
-    #     else:
-    #         # Here you can fetch user details and pass them to the template
-    #         # For example, you might want to fetch the user's profile information
-    #         # and render it in the edit profile page.
-    #         patient_data = Patient.objects.filter(user=user).first()
-    #         if not patient_data:
-    #             print("No patient data found for user")
-    #             return HttpResponse("No patient data found for user", status=404)
-    #         else:
-    #             print(f"Patient data found: {patient_data}")
-    #         return render(request, "edit_profile.html", {"user": user, "patient": patient_data})
-    # except Exception as e:
-    #     # Handle token validation errors
-    #     print(f"Token validation error: {e}")
-    #     return HttpResponse("Invalid token", status=401)
+    token = request.headers.get('Authorization')
+    if not token:
+        return HttpResponse("Unauthorized", status=401)
+    
+    user = request.user
+    if isinstance(user, AnonymousUser) or not user.is_authenticated:
+        return HttpResponse("Unauthorized", status=401)
+    
+    patient_data = Patient.objects.filter(user=user).first()
+    initial_data = {
+        'first_name': patient_data.first_name,
+        'last_name': patient_data.last_name,
+        'email': patient_data.email,
+        'phone_number': patient_data.phone_number,
+        'date_of_birth': patient_data.date_of_birth,
+    }
+    return render(request, "edit_profile.html", {"form": EditProfileForm(initial=initial_data)})
     
 @api_view(['POST'])
 def submit_edits(request):
-    pass
+    token = request.headers.get('Authorization')
+    if not token:
+        return HttpResponse("Unauthorized", status=401)
+    user = request.user
+    if isinstance(user, AnonymousUser) or not user.is_authenticated:
+        return HttpResponse("Unauthorized", status=401)
+    
+    patent_data = Patient.objects.filter(user=user).first()
+    if not patent_data:
+        return HttpResponse("Patient data not found", status=404)
+    
+    first_name = request.data.get('first_name', patent_data.first_name)
+    last_name = request.data.get('last_name', patent_data.last_name)
+    email = request.data.get('email', patent_data.email)
+    phone = request.data.get('phone', patent_data.phone_number)
+    birthdate = request.data.get('birthdate', patent_data.date_of_birth)
+    patent_data.first_name = first_name
+    patent_data.last_name = last_name
+    patent_data.email = email
+    patent_data.phone_number = phone
+    patent_data.date_of_birth = birthdate
+    try:
+        patent_data.save()
+    except Exception as e:
+        return HttpResponse(f"Error updating profile: {str(e)}", status=500)
+    return HttpResponse("Profile updated successfully.")

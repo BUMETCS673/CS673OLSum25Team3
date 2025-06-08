@@ -32,18 +32,13 @@
   
   <!-- Main Content -->
   <main class="dashboard-main">
+    <script src="{% static 'js/edit.js' %}"></script>
     <div class="container-fluid">
-      
       <div id="edit_form" class="auth-box animate__animated animate__fadeInUp">
-        <div class="text-center mb-4">
-          <p class="display-6 fw-bold"><b>Edit Profile</b></p>
-        </div>
-        <input type="text" id="edit-firstname" class="form-control" placeholder="First Name">
-        <input type="text" id="edit-lastname" class="form-control" placeholder="Last Name">
-        <input type="email" id="edit-email" class="form-control" placeholder="Email">
-        <input type="tel" id="edit-phone" class="form-control" placeholder="Phone Number">
-        <input type="date" id="edit-birthdate" class="form-control" placeholder="Date of Birth">
-        <button onclick="edit()" class="btn btn-success w-100 mt-3">Submit Changes</button>
+        <form>
+          {{ form }}
+          <input type="submit" class="btn btn-success w-100 mt-3" value="Save Changes" onclick="submit_edit()">
+        </form>
         <p id="edit-msg" class="text-danger mt-3 text-center"></p>
       </div>
     </div>
