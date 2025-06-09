@@ -1,3 +1,4 @@
+"""URL Patterns for user features which get imported into the main urls module"""
 from django.urls import path
 from . import views
 urlpatterns = [

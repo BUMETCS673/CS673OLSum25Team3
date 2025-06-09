@@ -1,3 +1,15 @@
+"""
+Views for rendering the registration, sign up, and dashboard, and a logout API endpoint
+
+@ai-generated
+Tool: GitHub Copilot
+Prompt: N/A (Code completion unprompted)
+Generated on: 06-08-2025
+Modified by: Tyler Gonsalves
+Modifications: Added error handling, function decorators and updated docstrings
+Verified: ✅ Unit tested, reviewed
+*/
+"""
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate, logout
 from django.http import HttpResponse

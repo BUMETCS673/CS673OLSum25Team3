@@ -1,3 +1,4 @@
+"""Unit tests for user form validation"""
 import pytest
 from users.models import Patient
 from users.forms import CustomAuthenticationForm, CustomUserCreationForm, CustomUserUpdateForm
