@@ -1,0 +1,25 @@
+/* Forms */
+.auth-box {
+  background: white;
+  padding: 3.5rem;
+  border-radius: 21px;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+  width: 532px;
+  backdrop-filter: blur(10px);
+  transform: scale(1.4);
+  margin: 10 auto;
+}
+
+.form-control {
+  margin-bottom: 1rem;
+  border-radius: 8px;
+  border: 2px solid #e9ecef;
+  padding: 0.75rem 1rem;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+
+.form-control:focus {
+  border-color: #20b2aa;
+  box-shadow: 0 0 0 0.2rem rgba(32, 178, 170, 0.25);
+}
