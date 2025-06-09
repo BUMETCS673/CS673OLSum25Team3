@@ -1,0 +1,88 @@
+<!--
+HTML file for viewing appointments. Dummy data is used for now.
+
+@ai-generated
+Tool: GitHub Copilot
+Prompt: "create html file for viewing appointments"
+Generated on: 2025-06-08
+Modified by: Adriel Domingo
+Modifications: Added appointments_view.js script
+Verified:  reviewed
+-->
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>View Appointments</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f9f9f9;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 40px auto;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            padding: 32px;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 24px;
+        }
+        th, td {
+            border: 1px solid #e0e0e0;
+            padding: 12px 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+            color: #444;
+        }
+        tr:nth-child(even) {
+            background-color: #fafafa;
+        }
+        .no-appointments {
+            text-align: center;
+            color: #888;
+            margin-top: 40px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>View Upcoming Appointments</h1>
+        <table id="appointmentsTable">
+            <thead>
+                <tr>
+                    <th>Date/Time</th>
+                    <th>Patient ID</th>
+                    <th>Doctor ID</th>
+                    <th>Reason</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody id="appointmentsBody">
+                <!-- Appointments will be inserted here -->
+            </tbody>
+        </table>
+        <div class="no-appointments" id="noAppointments" style="display:none;">
+            No appointments scheduled.
+        </div>
+    </div>
+
+    <script src="{% static 'js/appointments_view.js' %}"></script>
+
+</body>
+</html>

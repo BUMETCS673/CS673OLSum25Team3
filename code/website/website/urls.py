@@ -9,6 +9,8 @@ urlpatterns = [
     path('api/login/', views.login, name="login"),
     path('api/register/', views.register, name="register"),
     path("dashboard/", views.dashboard, name="dashboard"),
+    path('api/appointments/', views.appointments_view,
+         name="appointments_view"),
     path('', lambda request: redirect('/login/')),
 ]
 

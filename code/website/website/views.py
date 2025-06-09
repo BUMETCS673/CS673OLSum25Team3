@@ -4,6 +4,8 @@ from rest_framework.response import Response
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
 from rest_framework_simplejwt.tokens import RefreshToken
+from .models import Appointment
+from .serializers import AppointmentSerializer
 
 # HTML pages
 def login_page(request):
@@ -14,6 +16,9 @@ def signup_page(request):
 
 def dashboard(request):
     return render(request, "dashboard.html")
+
+def appointments_view(request):
+    return render(request, "appointments_view.html")
 
 
 # REST API endpoints
@@ -39,4 +44,11 @@ def login(request):
         })
     return Response({"error": "Invalid credentials"}, status=400)
 
-
+@api_view(['GET'])
+def appointment_list(request):
+    """
+    List all appointments.
+    """
+    appointments = Appointment.objects.all()
+    serializer = AppointmentSerializer(appointments, many=True)
+    return Response(serializer.data)

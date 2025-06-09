@@ -41,6 +41,8 @@ INSTALLED_APPS = [
     "rest_framework",
     "rest_framework_simplejwt",
     "corsheaders",
+    "website",
+    #"appointments",  # custom app for appointments
 ]
 
 MIDDLEWARE = [

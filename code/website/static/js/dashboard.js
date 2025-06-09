@@ -34,16 +34,8 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
   
-  const statCards = document.querySelectorAll('.stat-card');
-  statCards.forEach(card => {
-    card.addEventListener('click', function() {
+  
 
-      const statLabel = this.querySelector('.stat-label').textContent;
-      alert(`${statLabel} details coming soon!`);
-    });
-    
-    card.style.cursor = 'pointer';
-  });
   
   const actionCards = document.querySelectorAll('.action-card');
   actionCards.forEach(card => {
