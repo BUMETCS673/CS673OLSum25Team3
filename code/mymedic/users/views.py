@@ -14,6 +14,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate, logout
 from django.http import HttpResponse
 from .forms import CustomUserCreationForm, CustomAuthenticationForm, CustomUserUpdateForm
+from django.contrib.auth.models import User
 from .models import Patient
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
@@ -60,7 +61,8 @@ def mlogin(request):
                 messages.error(request, "Invalid credentials")
                 return redirect("mlogin")
         else:
-            return
+            messages.error(request, "Invalid credentials")
+            return redirect("mlogin")
     return render(request, 'users/login.html', context={'form': form})
 
 def mlogout(request):
@@ -85,6 +87,7 @@ def profile(request):
     user = request.user
     try:
         patient_data = Patient.objects.filter(username=user.username).first()
+        user_data = User.objects.filter(username=user.username).first()
     except Patient.DoesNotExist:
         return HttpResponse("Patient data not found", status=404)
     
@@ -98,7 +101,16 @@ def profile(request):
     if request.method == 'POST':
         form = CustomUserUpdateForm(request.POST)
         if form.is_valid():
-            form.save()
+            patient_data.first_name = form.cleaned_data.get("first_name", patient_data.first_name)
+            patient_data.last_name = form.cleaned_data.get("last_name", patient_data.last_name)
+            patient_data.email = form.cleaned_data.get("email", patient_data.email)
+            patient_data.phone_number = form.cleaned_data.get("phone", patient_data.phone_number)
+            patient_data.date_of_birth = form.cleaned_data.get("birth_date", patient_data.date_of_birth)
+            user_data.first_name = form.cleaned_data.get("first_name", user_data.first_name)
+            user_data.last_name = form.cleaned_data.get("last_name", user_data.last_name)
+            user_data.email = form.cleaned_data.get("email", user_data.email)
+            patient_data.save()
+            user_data.save()
             return redirect("profile")
     else:
         return render(request, 'users/profile.html', context={"form": form})
