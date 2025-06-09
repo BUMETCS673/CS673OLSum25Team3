@@ -16,54 +16,46 @@ cd CS673OLSum25Team3
 cp .env.example .env
 ```
 
-Edit `.env` and add a DJANGO_SECRET_KEY generated from [Django Secret Key Generator](https://djecrety.ir/).
+Edit `.env` and add a DJANGO_SECRET_KEY generated from [Django Secret Key Generator](https://djecrety.ir/), and also the email settings if you plan to use email features, which is necessary for password reset functionality.
+
 ---
 
-### 3. Build the Docker Image
+### 3. Build the Docker Image and create the SQLite volume
 
 ```bash
-docker build -t mymedic:master .
+docker build -t mymedic:master . 
+``` 
+
+```bash
+docker volume create sqlite-data
 ```
 
 ---
 
-### 4. Apply Migrations
-
-```bash
-docker run -it --rm -v sqlite:/sqlite mymedic:master python manage.py migrate
-```
-
----
-
-### 5. Create a Superuser (optional)
-
-```bash
-docker run -it --rm -v sqlite:/sqlite mymedic:master python manage.py createsuperuser
-```
-
----
-
-### 6. Run the Development Server
+### 4. Run the Development Server
 
 #### Windows:
 ```bash
-docker run -it --rm -p 8080:8080 -v sqlite:/sqlite -v %cd%\website:/usr/src/website mymedic:master python manage.py runserver 0.0.0.0:8080
+docker run --rm --env-file .env -v "%cd%":/app -v sqlite-data:/sqlite -p 8080:80 mymedic:master
 ```
 
 #### MacOS:
 ```bash
-docker run -it --rm -p 8080:8080 -v sqlite:/sqlite -v "$(pwd)/website:/usr/src/website" mymedic:master python manage.py runserver 0.0.0.0:8080
+docker run --rm --env-file .env -v "$(pwd)":/app -v sqlite-data:/sqlite -p 8080:80 mymedic:master
 ```
 
-This binds the local website code into the container and serves it at `http://127.0.0.1:8080`.
+This binds the local website code into the container and serves it at `http://localhost:8080`.
 
 ---
 
-### 7. Run Tests
+### 5. Run the Development Server (Through Docker Compose)
 
 ```bash
-docker run --rm mymedic:master pytest -v tests/
-
+docker compose up --build
 ```
+
+This version of the code is designed to run without the Django debug server, and has set up Gunicorn as the WSGI server. It is suitable for production use, but can also be used for development purposes.
+
+What’s New: I’ve overhauled the entire user authentication and deployment workflow: login bugs are fixed and responses now include a clear "role" flag; I introduced a ProviderProfile model and full signup flow for healthcare providers (in addition to patients); password resets send real email links (console backend in DEBUG, SMTP in production); signup and reset forms have stronger validation; the validate-token endpoint now returns role information so the frontend can branch UI accordingly; all statics are served by Nginx instead of the dev server; and the Docker setup is simplified into a production-ready Gunicorn + Nginx container (with an optional Compose multi-container configuration).
 
 ---

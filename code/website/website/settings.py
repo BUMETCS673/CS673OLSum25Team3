@@ -3,7 +3,6 @@ import os
 from pathlib import Path
 from website import is_true, split_with_comma
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
@@ -26,7 +25,6 @@ if DEBUG:
     hostname, _, ips = socket.gethostbyname_ex(socket.gethostname())
     INTERNAL_IPS = [ip[:-1] + "1" for ip in ips] + ["127.0.0.1", "10.0.2.2"]
 
-    # **DEV OVERRIDES: allow any host + disable CSRF-origin checks**
     ALLOWED_HOSTS = ["*"]
     CSRF_TRUSTED_ORIGINS = []
 
@@ -41,13 +39,31 @@ INSTALLED_APPS = [
     "rest_framework",
     "rest_framework_simplejwt",
     "corsheaders",
+    "website"
 ]
+
+SESSION_ENGINE = 'django.contrib.sessions.backends.db'  # Use database for sessions
+SESSION_COOKIE_AGE = 3600  # 1 hour
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+SESSION_SAVE_EVERY_REQUEST = True
+
+# Security headers
+SECURE_BROWSER_XSS_FILTER = True
+SECURE_CONTENT_TYPE_NOSNIFF = True
+X_FRAME_OPTIONS = 'DENY'
+
+# Cache control for authenticated pages
+CACHE_MIDDLEWARE_SECONDS = 0
+CACHE_MIDDLEWARE_KEY_PREFIX = ''
+
 
 MIDDLEWARE = [
     "corsheaders.middleware.CorsMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
+    "django.middleware.cache.UpdateCacheMiddleware",
     "django.middleware.common.CommonMiddleware",
+    "django.middleware.cache.FetchFromCacheMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
@@ -86,8 +102,11 @@ WSGI_APPLICATION = "website.wsgi.application"
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": Path(os.getenv("DJANGO_SQLITE_DIR", ".")) / "db.sqlite3",
+        "ENGINE": os.getenv("SQL_ENGINE", "django.db.backends.sqlite3"),
+        "NAME": os.path.join(
+            os.getenv("DJANGO_SQLITE_DIR", BASE_DIR),
+            os.getenv("SQL_DATABASE", "db.sqlite3")
+        ),
     }
 }
 
@@ -144,12 +163,14 @@ else:
     SECURE_HSTS_INCLUDE_SUBDOMAINS = True
     SECURE_HSTS_PRELOAD = True
 
-# Email settings
+# Email Configuration
+EMAIL_BACKEND = os.getenv("DJANGO_EMAIL_BACKEND", "django.core.mail.backends.console.EmailBackend" if DEBUG else "django.core.mail.backends.smtp.EmailBackend")
 EMAIL_HOST = os.getenv("DJANGO_EMAIL_HOST", "localhost")
 EMAIL_PORT = int(os.getenv("DJANGO_EMAIL_PORT", 25))
 EMAIL_HOST_USER = os.getenv("DJANGO_EMAIL_HOST_USER", "")
 EMAIL_HOST_PASSWORD = os.getenv("DJANGO_EMAIL_HOST_PASSWORD", "")
 EMAIL_USE_TLS = is_true(os.getenv("DJANGO_EMAIL_USE_TLS", "False"))
+EMAIL_USE_SSL = is_true(os.getenv("DJANGO_EMAIL_USE_SSL", "False"))
 
 # Default email addresses
 SERVER_EMAIL = os.getenv("DJANGO_SERVER_EMAIL", "root@localhost")
@@ -160,6 +181,8 @@ ADMIN_NAME = os.getenv("DJANGO_ADMIN_NAME", "")
 ADMIN_EMAIL = os.getenv("DJANGO_ADMIN_EMAIL", "")
 if ADMIN_EMAIL:
     ADMINS = [(ADMIN_NAME, ADMIN_EMAIL)]
+
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Logging
 LOGGING = {
@@ -188,7 +211,6 @@ LOGGING = {
             "propagate": True,
         },
         "django.request": {
-            # In development just log to console
             "handlers": ["console"] if DEBUG else ["mail_admins", "console"],
             "level": "ERROR",
             "propagate": False,
