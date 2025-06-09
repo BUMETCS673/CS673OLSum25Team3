@@ -7,4 +7,6 @@ urlpatterns = [
     path('profile', views.profile, name='profile'),
     path('mlogout', views.mlogout, name='mlogout'),
     path('', views.mlogin, name=''),  # Default route to login
+    path('verify_mfa/', views.verify_mfa, name='verify_mfa'),
+
 ]

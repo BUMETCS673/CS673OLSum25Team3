@@ -5,6 +5,8 @@ from .forms import CustomUserCreationForm, CustomAuthenticationForm, CustomUserU
 from .models import Patient
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+import random
+from django.contrib import messages
 
 # Create your views here.
 def register(request):
@@ -42,13 +44,17 @@ def mlogin(request):
             user = authenticate(request, username=username, password=password)
             if user is not None:
                 login(request, user)
-                messages.success(request, "Login successful")
-                return redirect("dashboard")
+                
+                mfa_code = str(random.randint(100000, 999999))
+                request.session['mfa_code'] = mfa_code
+                request.session['mfa_verified'] = False
+
+                print("🔐 MFA Code (demo):", mfa_code)  
+
+                return redirect("verify_mfa")  
             else:
                 messages.error(request, "Invalid credentials")
                 return redirect("mlogin")
-        else:
-            return
     return render(request, 'users/login.html', context={'form': form})
 
 def mlogout(request):
@@ -58,11 +64,27 @@ def mlogout(request):
     logout(request)
     return redirect("mlogin")
 
+
+def verify_mfa(request):
+    if request.method == 'POST':
+        input_code = request.POST.get('mfa_code')
+        if input_code == request.session.get('mfa_code'):
+            request.session['mfa_verified'] = True
+            return redirect("dashboard")
+        else:
+            messages.error(request, "Incorrect code. Please try again.")
+            return redirect("verify_mfa")
+
+    return render(request, 'users/verify_mfa.html')
+
+
 @login_required(login_url='mlogin')
 def dashboard(request):
     """
     Render the dashboard view for users.
     """
+    if not request.session.get('mfa_verified'):
+        return redirect("verify_mfa")
     return render(request, 'users/dashboard.html')
 
 @login_required(login_url='mlogin')
@@ -90,3 +112,5 @@ def profile(request):
             return redirect("profile")
     else:
         return render(request, 'users/profile.html', context={"form": form})
+    
+
