@@ -11,6 +11,8 @@ urlpatterns = [
     path("dashboard/", views.dashboard, name="dashboard"),
     path('', lambda request: redirect('/login/')),
     path("api/search/", views.search, name="search"),
+    path('cancel_appointment/<int:appointment_id>/', views.cancel_appointment, name='cancel_appointment'),
+
 ]
 
 # Serve media files from MEDIA_ROOT. It will only work when DEBUG=True is set.

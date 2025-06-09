@@ -72,3 +72,28 @@ def search(request):
 
     return JsonResponse(matched, safe=False)
 
+@api_view(['POST'])
+def cancel_appointment(request, appointment_id):
+    user_id = 1  # fake user for testing
+
+    with open("data_mockup/appointments.json", "r") as f:
+        appointments = json.load(f)
+
+    updated_appointments = [
+        appt for appt in appointments
+        if not (appt["user_id"] == user_id and appt["id"] == appointment_id)
+    ]
+
+    with open("data_mockup/appointments.json", "w") as f:
+        json.dump(updated_appointments, f, indent=4)
+
+    return JsonResponse({"message": "Appointment canceled successfully"})
+
+def dashboard(request):
+    with open("data_mockup/appointments.json") as f:
+        appointments = json.load(f)
+
+    user_id = 1  # fake user
+    user_appointments = [appt for appt in appointments if appt["user_id"] == user_id]
+
+    return render(request, "dashboard.html", {"appointments": user_appointments})

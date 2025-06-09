@@ -1,0 +1,14 @@
+[
+    {
+        "id": 2,
+        "user_id": 1,
+        "date": "2025-06-20",
+        "description": "Eye Exam with Dr. Adams"
+    },
+    {
+        "id": 3,
+        "user_id": 2,
+        "date": "2025-06-18",
+        "description": "General Consultation with Dr. Lee"
+    }
+]
