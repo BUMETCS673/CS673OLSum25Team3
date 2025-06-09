@@ -11,7 +11,7 @@ FROM base
 
 ARG USER=user
 ARG USER_UID=1001
-ARG PROJECT_NAME=website
+ARG PROJECT_NAME=mymedic
 ARG GUNICORN_PORT=8000
 ARG GUNICORN_WORKERS=2
 # the value is in seconds
@@ -59,7 +59,8 @@ RUN chmod +x /docker-entrypoint.sh /docker-cmd.sh && \
     chown -R $USER:$USER $DJANGO_BASE_DIR $DJANGO_STATIC_ROOT $DJANGO_MEDIA_ROOT $DJANGO_SQLITE_DIR
 
 WORKDIR $DJANGO_BASE_DIR
-ENTRYPOINT ["/docker-entrypoint.sh"]
-CMD ["/docker-cmd.sh"]
 
-EXPOSE $GUNICORN_PORT
+RUN python manage.py collectstatic --noinput && \
+	python manage.py makemigrations && \
+	python manage.py migrate && \
+	python manage.py createsuperuser --noinput
