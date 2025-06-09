@@ -49,7 +49,7 @@ def mlogin(request):
                 request.session['mfa_code'] = mfa_code
                 request.session['mfa_verified'] = False
 
-                print("🔐 MFA Code (demo):", mfa_code)  
+                print("🔐 MFA Code 🔐 :", mfa_code)  
 
                 return redirect("verify_mfa")  
             else:
