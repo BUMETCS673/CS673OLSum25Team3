@@ -7,7 +7,7 @@ async function loadAppointments() {
 
     tbody.innerHTML = '';
     try {
-        const response = await fetch('/api/appointments/');
+        const response = await fetch('/appointments/api/appointments/');
         if (!response.ok) throw new Error('Failed to fetch appointments');
         const appointments = await response.json();
 
@@ -30,7 +30,7 @@ async function loadAppointments() {
             });
         }
     } catch (error) {
-        noAppDiv.textContent = 'Failed to load appointments.';
+        noAppDiv.textContent = 'Appointments view coming soon';
         noAppDiv.style.display = '';
         table.style.display = 'none';
         console.error('Error fetching appointments:', error);

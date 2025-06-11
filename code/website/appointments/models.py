@@ -11,6 +11,7 @@ Verified:  reviewed
 
 from django.db import models
 
+
 class Appointment(models.Model):
     patient_id = models.IntegerField()
     doctor_id = models.IntegerField()
@@ -19,5 +20,5 @@ class Appointment(models.Model):
     status = models.TextField()
 
     def __str__(self):
-        return f"{self.patient_id} with {self.doctor_id} at {self.datetime}"
-    
+        return f"patient {self.patient_id} has appointment with doctor " \
+               f"{self.doctor_id} on {self.datetime}"
