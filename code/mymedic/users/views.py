@@ -114,3 +114,30 @@ def profile(request):
             return redirect("profile")
     else:
         return render(request, 'users/profile.html', context={"form": form})
+
+from django.http import JsonResponse
+from django.views.decorators.http import require_GET
+from django.views.decorators.csrf import csrf_exempt
+
+@csrf_exempt
+@require_GET
+def search_records(request):
+    """
+    API endpoint to search medical records by doctor or prescription.
+    """
+    query = request.GET.get("q", "").lower()
+
+    # Sample static data for mock search
+    sample_data = [
+        {"doctor": "Dr. Smith", "prescription": "Ibuprofen"},
+        {"doctor": "Dr. Lee", "prescription": "Amoxicillin"},
+        {"doctor": "Dr. Taylor", "prescription": "Lisinopril"},
+    ]
+
+    # Filter results by matching query in doctor or prescription fields
+    results = [
+        record for record in sample_data
+        if query in record["doctor"].lower() or query in record["prescription"].lower()
+    ]
+
+    return JsonResponse(results, safe=False)

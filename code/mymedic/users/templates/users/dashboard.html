@@ -33,6 +33,21 @@
     <!-- Main Content -->
   <main class="dashboard-main">
     <div class="container-fluid">
+      <!-- Search -->
+        <div class="search-section animate__animated animate__fadeIn">
+          <div class="row">
+            <div class="col-12">
+              <div class="search-card">
+                <h2 class="search-title">Search Records</h2>
+                <div class="search-row">
+                  <input type="text" id="search-input" placeholder="Enter doctor or prescription" />
+                  <button id="search-btn" class="btn btn-success" onclick="searchRecords()">Search</button>
+                </div>
+                <div id="search-results" class="mt-3"></div>
+              </div>
+            </div>
+          </div>
+        </div>
       
       <!-- Welcome Section -->
       <div class="welcome-section animate__animated animate__fadeIn">
@@ -171,4 +186,6 @@
 
     </div>
   </main>
+  <script src="{% static 'js/dashboard.js' %}"></script>
+  <script src="{% static 'js/search.js' %}"></script>
 </html>
