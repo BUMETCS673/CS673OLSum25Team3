@@ -1,3 +1,14 @@
+"""
+This module holds the form definition and styles them
+
+@ai-generated
+Tool: GitHub Copilot
+Prompt: N/A (Code completion unprompted)
+Generated on: 06-08-2025
+Modified by: Tyler Gonsalves
+Modifications: Added CSS styling and updated docstrings
+Verified: ✅ Unit tested, reviewed
+"""
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django import forms
 from django.core.validators import RegexValidator
