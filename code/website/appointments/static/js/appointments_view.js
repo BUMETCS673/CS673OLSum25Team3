@@ -1,5 +1,3 @@
-// appointments.js
-
 async function loadAppointments() {
     const tbody = document.getElementById('appointmentsBody');
     const noAppDiv = document.getElementById('noAppointments');
