@@ -28,7 +28,6 @@ ARG DJANGO_SUPERUSER_PASSWORD=admin
 ARG DJANGO_SUPERUSER_EMAIL=admin@example.com
 ARG DJANGO_DEV_SERVER_PORT=8000
 
-
 ENV \
 	USER=$USER \
 	USER_UID=$USER_UID \
@@ -58,6 +57,8 @@ RUN chmod +x /docker-entrypoint.sh /docker-cmd.sh && \
     adduser -s /bin/sh -D -u $USER_UID $USER && \
     chown -R $USER:$USER $DJANGO_BASE_DIR $DJANGO_STATIC_ROOT $DJANGO_MEDIA_ROOT $DJANGO_SQLITE_DIR
 
+RUN mkdir -p /usr/share/nginx
+RUN chown $USER /usr/share/nginx
 WORKDIR $DJANGO_BASE_DIR
 
 RUN python manage.py collectstatic --noinput && \
