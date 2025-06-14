@@ -1,37 +1,7 @@
 services:
-  django:
+  mymedic:
     build: .
     image: mymedic
-    env_file: .env
-    environment:
-      - DJANGO_ALLOWED_HOSTS=127.0.0.1,localhost:8080
-      - DJANGO_CSRF_TRUSTED_ORIGINS=http://127.0.0.1,http://localhost:8080
-    restart: unless-stopped
-    volumes:
-      - staticfiles-data:/usr/share/nginx/html/static
-      - media-data:/var/www/media
-      # mount your code for live edits
-      - .:/app
-    expose:
-      - "8000"
-
-  nginx:
-    image: nginx:1.25-alpine
-    restart: unless-stopped
     ports:
-      - "8080:80"
-    depends_on:
-      - django
-    volumes:
-      - staticfiles-data:/usr/share/nginx/html/static:ro
-      - media-data:/usr/share/nginx/html/media:ro
-      - ./nginx.conf:/etc/nginx/nginx.conf:ro
-      - .:/app:ro 
-
-volumes:
-  staticfiles-data:
-  media-data:
-
-
-
-
+      - 8080:8000
+    command: /docker-entrypoint.sh /docker-cmd.sh
