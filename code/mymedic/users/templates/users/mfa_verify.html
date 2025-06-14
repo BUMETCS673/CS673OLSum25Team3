@@ -36,14 +36,12 @@
 
             <form method="post">
                 {% csrf_token %}
-                {% for field in form %}
+
                     <div class="d-flex justify-content-center align-items-center mb-3">
                         <label for="code" class="me-2 fw-bold" style="color: #20b2aa;">Enter 6-digit code:</label>
                         <input type="text" id="code" name="code" class="form-control" style="max-width: 150px;" maxlength="6" inputmode="numeric" required>
                     </div>
                   
-                {% endfor %}
-
                 {% if form.errors %}
                     <div class="alert alert-danger mt-2">
                         <ul class="mb-0">
