@@ -1,0 +1,7 @@
+services:
+  mymedic:
+    build: .
+    image: mymedic
+    ports:
+      - 8080:8000
+    command: /docker-entrypoint.sh /docker-cmd.sh
