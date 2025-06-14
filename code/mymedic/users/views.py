@@ -18,6 +18,10 @@ from django.contrib.auth.models import User
 from .models import Patient
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from .utils import send_mfa_code
+from .forms import MFAForm
+from django.contrib.auth import get_user_model
+from .forms import MFAForm
 
 # Create your views here.
 def register(request):
@@ -54,9 +58,9 @@ def mlogin(request):
             password = request.POST.get('password')
             user = authenticate(request, username=username, password=password)
             if user is not None:
-                login(request, user)
-                messages.success(request, "Login successful")
-                return redirect("dashboard")
+                request.session['pre_mfa_user_id'] = user.id
+                send_mfa_code(user.email, request)
+                return redirect("mfa_verify")
             else:
                 messages.error(request, "Invalid credentials")
                 return redirect("mlogin")
@@ -64,6 +68,7 @@ def mlogin(request):
             messages.error(request, "Invalid credentials")
             return redirect("mlogin")
     return render(request, 'users/login.html', context={'form': form})
+
 
 def mlogout(request):
     """
@@ -114,3 +119,21 @@ def profile(request):
             return redirect("profile")
     else:
         return render(request, 'users/profile.html', context={"form": form})
+    
+
+def mfa_verify(request):
+    if request.method == 'POST':
+        form = MFAForm(request.POST)
+        if form.is_valid():
+            if form.cleaned_data['code'] == request.session.get('mfa_code'):
+                user_id = request.session.get('pre_mfa_user_id')
+                if user_id:
+                    user = get_user_model().objects.get(id=user_id)
+                    login(request, user)
+                    del request.session['mfa_code']
+                    del request.session['pre_mfa_user_id']
+                    return redirect('dashboard')
+            form.add_error(None, "Invalid code")
+    else:
+        form = MFAForm()
+    return render(request, 'users/mfa_verify.html', {'form': form})
