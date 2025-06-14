@@ -69,6 +69,7 @@ def mlogin(request):
             return redirect("mlogin")
     return render(request, 'users/login.html', context={'form': form})
 
+
 def mlogout(request):
     """
     Handle user logout and redirect to the login page.
@@ -127,20 +128,20 @@ def mfa_verify(request):
     """
     Verify the MFA code sent via email
     """
+    user_id = request.session.get('pre_mfa_user_id')
+    if not user_id:
+        messages.error(request, "Session expired. Please login again.")
+        return redirect('mlogin')
+    
     form = MFAForm()
     if request.method == 'POST':
         form = MFAForm(request.POST)
         if form.is_valid():
             code = form.cleaned_data['code']
-            user_id = request.session.get('pre_mfa_user_id')
-
-            if not user_id:
-                messages.error(request, "Session expired. Please login again.")
-                return redirect('mlogin')
 
             try:
                 user = User.objects.get(id=user_id)
-                expected_code = request.session.get('mfa_code')  # 
+                expected_code = request.session.get('mfa_code')  
             except User.DoesNotExist:
                 messages.error(request, "User not found.")
                 return redirect('mlogin')

@@ -16,6 +16,7 @@
             <h1 class="display-6 fw-bold" style="color: #20b2aa;">MyMedic</h1>
             <p class="lead text-muted"><b>Login</b></p>
         </div>
+
         <form method="post">
             {% csrf_token %}
             {% for field in form %}
@@ -35,6 +36,15 @@
                     </ul>
                 </div>
             {% endif %}
+
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert alert-danger mt-2">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+            
             <button class="btn btn-success w-100 mt-3" type="submit">Login</button>
         </form>
         <div class="text-center mt-3">
