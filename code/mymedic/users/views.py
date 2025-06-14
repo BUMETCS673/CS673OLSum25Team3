@@ -151,6 +151,6 @@ def mfa_verify(request):
                 del request.session['mfa_code']
                 return redirect('dashboard')
             else:
-                form.add_error('code', 'Invalid MFA code. Please try again.')
+                form.add_error('code', 'Invalid code. Please try again.')
 
     return render(request, 'users/mfa_verify.html', {'form': form})
