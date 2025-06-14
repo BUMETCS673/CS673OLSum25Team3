@@ -114,3 +114,6 @@ def profile(request):
             return redirect("profile")
     else:
         return render(request, 'users/profile.html', context={"form": form})
+ 
+def privacy_policy(request):
+    return render(request, 'users/privacy_policy.html')
