@@ -45,3 +45,6 @@ class CustomUserUpdateForm(forms.Form):
                             validators=[RegexValidator(regex=r'^\d{10}$', message='Phone number must be 10 digits.')])
     birth_date = forms.DateField(widget=DateInput(attrs={'placeholder': 'YYYY-MM-DD', 'class': 'form-control'}),
                                  validators=[RegexValidator(regex=r'^\d{4}-\d{2}-\d{2}$')])
+
+class MFAForm(forms.Form):
+    code = forms.CharField(max_length=6, label="Enter 6-digit Code:")

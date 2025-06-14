@@ -11,13 +11,15 @@ Verified: ✅ Unit tested, reviewed
 */
 """
 from django.shortcuts import render, redirect
-from django.contrib.auth import login, authenticate, logout
+from django.contrib.auth import login, authenticate, logout, get_user_model
 from django.http import HttpResponse
 from .forms import CustomUserCreationForm, CustomAuthenticationForm, CustomUserUpdateForm
 from django.contrib.auth.models import User
 from .models import Patient
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from users.utils import send_mfa_code
+from .forms import MFAForm
 
 # Create your views here.
 def register(request):
@@ -54,9 +56,10 @@ def mlogin(request):
             password = request.POST.get('password')
             user = authenticate(request, username=username, password=password)
             if user is not None:
-                login(request, user)
-                messages.success(request, "Login successful")
-                return redirect("dashboard")
+                request.session['pre_mfa_user_id'] = user.id
+
+                send_mfa_code(user.email, request)
+                return redirect("mfa_verify")
             else:
                 messages.error(request, "Invalid credentials")
                 return redirect("mlogin")
@@ -114,3 +117,26 @@ def profile(request):
             return redirect("profile")
     else:
         return render(request, 'users/profile.html', context={"form": form})
+    
+def mfa_verify(request):
+    """
+    Verify the MFA code sent via email
+    """
+    form = MFAForm()
+    if request.method == 'POST':
+        form = MFAForm(request.POST)
+        if form.is_valid():
+            code = form.cleaned_data.get('code')
+            expected_code = request.session.get('mfa_code')
+            user_id = request.session.get('pre_mfa_user_id')
+            if str(code) == str(expected_code) and user_id:
+                user = get_user_model().objects.get(id=user_id)
+                login(request, user)
+                messages.success(request, "Login successful")
+                del request.session['mfa_code']
+                del request.session['pre_mfa_user_id']
+                return redirect('dashboard')
+            else:
+                messages.error(request, "Invalid MFA code")
+                return redirect('mfa_verify')
+    return render(request, 'users/mfa_verify.html', {'form': form})
