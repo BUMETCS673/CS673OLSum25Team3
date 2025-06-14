@@ -1,11 +1,16 @@
-"""URL Patterns for user features which get imported into the main urls module"""
+"""URL Patterns for user-related views in the MyMedic app."""
+
 from django.urls import path
 from . import views
+
 urlpatterns = [
-    path('dashboard', views.dashboard, name='dashboard'),
-    path('register', views.register, name='register'),
+    path('', views.mlogin, name='root'),  # Default route to login page
     path('mlogin', views.mlogin, name='mlogin'),
-    path('profile', views.profile, name='profile'),
     path('mlogout', views.mlogout, name='mlogout'),
-    path('', views.mlogin, name=''),  # Default route to login
+    path('register', views.register, name='register'),
+    path('dashboard', views.dashboard, name='dashboard'),
+    path('profile', views.profile, name='profile'),
+    path('records', views.medical_records, name='medical_records'),
 ]
+
+
