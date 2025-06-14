@@ -3,6 +3,12 @@
   padding: 2rem 0;
 }
 
+.header-title {
+  color: rgb(170, 255, 222);
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0;
+}
 /* Welcome Section */
 .welcome-section {
   margin-bottom: 2rem;
@@ -76,6 +82,15 @@
   margin: 0 auto 1rem;
 }
 
+.stat-icon.profile-icon {
+  background: linear-gradient(45deg, #20b2aa, #008b8b); /* teal like appointments */
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  display: inline-block;
+  vertical-align: middle;
+}
+
 .stat-icon.upcoming {
   background: linear-gradient(45deg, #20b2aa, #008b8b);
 }
@@ -143,6 +158,14 @@
   background: linear-gradient(45deg, #20b2aa, #008b8b);
 }
 
+.action-icon.records{
+  background: linear-gradient(45deg, #667eea, #764ba2);
+}
+
+.action-icon.prescriptions {
+  background: linear-gradient(45deg, #4facfe, #00f2fe);
+}
+
 .action-title {
   color: #343a40;
   font-size: 1.25rem;
@@ -208,6 +231,37 @@
   color: #20b2aa;
   font-size: 0.9rem;
   font-weight: 500;
+}
+
+.action-card .btn {
+  display: inline-block;
+  width: 150px;
+  padding: 10px 20px;
+  font-size: 1rem;
+  font-weight: 600;
+  text-align: center;
+  border-radius: 8px;
+  color: white !important;
+  border: none;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.btn-schedule {
+  background: linear-gradient(to right, #20b2aa, #008b8b);
+}
+
+.btn-records {
+  background: linear-gradient(to right, #667eea, #764ba2);
+}
+
+.btn-meds {
+  background: linear-gradient(to right, #4facfe, #00f2fe);
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
 }
 
 /* Responsive */

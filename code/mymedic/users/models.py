@@ -24,3 +24,13 @@ class Patient(models.Model):
 
     def __str__(self):
         return f"{self.first_name} {self.last_name} ({self.email})"
+    
+class MedicalRecord(models.Model):
+    """Database Model for patients' medical records history"""
+    patient = models.ForeignKey(Patient, on_delete=models.CASCADE)
+    title = models.CharField(max_length=255)
+    date = models.DateField()
+    summary = models.TextField()
+
+    def __str__(self):
+        return f"{self.title} ({self.date})"

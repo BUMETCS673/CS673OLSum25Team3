@@ -1,3 +1,4 @@
+
 {% load static %}
 <html>
 <head>
@@ -17,8 +18,7 @@
           </div>
           <div class="col-auto">
             <div class="user-profile">
-              <div class="user-avatar"></div>
-              <span class="username">{{ user.username }}</span>
+              <span class="text-white fw-semibold me-3">{{ user.username }}</span>
               <button class="btn btn-success w-100 mt-3" style="margin-right: 10px;">
                 <a class="text-muted" href="{% url 'profile' %}">Profile</a>
               </button>
@@ -33,7 +33,7 @@
     <!-- Main Content -->
   <main class="dashboard-main">
     <div class="container-fluid">
-      
+
       <!-- Welcome Section -->
       <div class="welcome-section animate__animated animate__fadeIn">
         <div class="row">
@@ -73,7 +73,7 @@
             <div class="stat-card">
               <div class="stat-icon records"></div>
               <div class="stat-content">
-                <h3 class="stat-number">12</h3>
+                <h3 class="stat-number" id="medical-records-count">0</h3>
                 <p class="stat-label">Medical Records</p>
               </div>
             </div>
@@ -112,7 +112,7 @@
               <div class="action-icon schedule"></div>
               <h4 class="action-title">Schedule Appointment</h4>
               <p class="action-description">Book your next visit with your healthcare provider</p>
-              <button class="btn btn-primary">Schedule Now</button>
+              <button class="btn btn-schedule">Schedule Now</button>
             </div>
           </div>
           <div class="col-lg-4 col-md-6 mb-4">
@@ -120,7 +120,7 @@
               <div class="action-icon records"></div>
               <h4 class="action-title">View Records</h4>
               <p class="action-description">Access your complete medical history and test results</p>
-              <button class="btn btn-primary">View Records</button>
+              <a href="{% url 'medical_records' %}" class="btn btn-records">View Records</a>
             </div>
           </div>
           <div class="col-lg-4 col-md-6 mb-4">
@@ -128,7 +128,7 @@
               <div class="action-icon prescriptions"></div>
               <h4 class="action-title">Prescriptions</h4>
               <p class="action-description">Manage your current medications and refill requests</p>
-              <button class="btn btn-primary">Manage Meds</button>
+              <button class="btn btn-meds">Manage Meds</button>
             </div>
           </div>
         </div>
@@ -168,7 +168,17 @@
           </div>
         </div>
       </div>
-
     </div>
   </main>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const countEl = document.getElementById("medical-records-count");
+      const count = localStorage.getItem("medical_records_count");
+      if (countEl && count) {
+        countEl.textContent = count;
+      }
+    });
+  </script>
+</body>
 </html>
