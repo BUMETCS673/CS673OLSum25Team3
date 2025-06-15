@@ -15,9 +15,14 @@ from django.contrib.auth import login, authenticate, logout
 from django.http import HttpResponse
 from .forms import CustomUserCreationForm, CustomAuthenticationForm, CustomUserUpdateForm
 from django.contrib.auth.models import User
-from .models import Patient
+from .models import Patient, Prescription
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from django.http import JsonResponse
+from django.views.decorators.http import require_GET
+import json
+from django.conf import settings
+
 
 # Create your views here.
 def register(request):
@@ -115,29 +120,36 @@ def profile(request):
     else:
         return render(request, 'users/profile.html', context={"form": form})
 
-from django.http import JsonResponse
-from django.views.decorators.http import require_GET
-from django.views.decorators.csrf import csrf_exempt
 
-@csrf_exempt
+
+
+"""
+@ai-generated
+Tool: ChatGPT (OpenAI)
+Prompt: "Write a Django search API view that filters JSON medical records by doctor or prescription for a specific user"
+Generated on: 2025-06-07
+Modified by: Mengliang Tan
+Modifications: Add fake id for testing
+Reason for using JSON:
+The team has not yet set up a real database, so this view uses a local `records.json` file as a temporary data source. This allows 
+frontend development and testing to proceed while backend models and database configurations are still in progress.
+
+Verified: ✅ Tested via frontend
+"""
 @require_GET
 def search_records(request):
-    """
-    API endpoint to search medical records by doctor or prescription.
-    """
     query = request.GET.get("q", "").lower()
+    user_id = 1  # fake id for testing
 
-    # Sample static data for mock search
-    sample_data = [
-        {"doctor": "Dr. Smith", "prescription": "Ibuprofen"},
-        {"doctor": "Dr. Lee", "prescription": "Amoxicillin"},
-        {"doctor": "Dr. Taylor", "prescription": "Lisinopril"},
+    with open("data_mockup/records.json") as f:
+        records = json.load(f)
+
+    matched = [
+        {key: r[key] for key in r if key != "user_id"}
+        for r in records
+        if r["user_id"] == user_id and (
+            query in r["prescription"].lower() or query in r["doctor"].lower()
+        )
     ]
 
-    # Filter results by matching query in doctor or prescription fields
-    results = [
-        record for record in sample_data
-        if query in record["doctor"].lower() or query in record["prescription"].lower()
-    ]
-
-    return JsonResponse(results, safe=False)
+    return JsonResponse(matched, safe=False)
