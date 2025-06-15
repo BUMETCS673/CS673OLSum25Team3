@@ -1,0 +1,50 @@
+[
+  {
+    "user_id": 1,
+    "doctor": "Dr. Smith",
+    "prescription": "Amoxicillin",
+    "dosage": "500mg",
+    "date": "2025-05-22",
+    "notes": "Take with food to avoid stomach upset. Prescribed for sinus infection."
+  },
+  {
+    "user_id": 1,
+    "doctor": "Dr. Adams",
+    "prescription": "Ibuprofen",
+    "dosage": "200mg",
+    "date": "2025-06-01",
+    "notes": "Take every 6 hours for pain relief. Do not exceed 1200mg per day."
+  },
+  {
+    "user_id": 1,
+    "doctor": "Dr. Smith",
+    "prescription": "Paracetamol",
+    "dosage": "650mg",
+    "date": "2025-06-05",
+    "notes": "For headaches and mild fever. Safe with other medications."
+  },
+  {
+    "user_id": 1,
+    "doctor": "Dr. Gomez",
+    "prescription": "Azithromycin",
+    "dosage": "250mg",
+    "date": "2025-06-03",
+    "notes": "5-day course for respiratory infection. Avoid antacids during treatment."
+  },
+  {
+    "user_id": 1,
+    "doctor": "Dr. Patel",
+    "prescription": "Lisinopril",
+    "dosage": "10mg",
+    "date": "2025-05-28",
+    "notes": "Monitor blood pressure. Report any dizziness or swelling."
+  },
+  {
+    "user_id": 1,
+    "doctor": "Dr. Nguyen",
+    "prescription": "Metformin",
+    "dosage": "1000mg",
+    "date": "2025-06-06",
+    "notes": "For blood sugar control. Take with meals to reduce GI upset."
+  }
+]

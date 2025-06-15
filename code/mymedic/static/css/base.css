@@ -1,0 +1,106 @@
+/* General Background and Font Styles */
+/* Header */
+.mymedic-header {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 1rem 0;
+}
+
+.header-title {
+  color: rgb(170, 255, 222);
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.user-profile {
+  display: flex;
+  align-items: center;
+  color: white;
+}
+
+.user-avatar {
+  width: 40px;
+  height: 40px;
+  background: linear-gradient(45deg, #20b2aa, #008b8b);
+  border-radius: 50%;
+  margin-right: 0.75rem;
+}
+
+.username {
+  font-weight: 600;
+  margin-right: 0.5rem;
+}
+
+body {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  min-height: 100vh;
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+}
+
+/* Buttons */
+.btn-primary {
+  background-color: #20b2aa !important;
+  border-color: #20b2aa !important;
+  border-radius: 8px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+  background-color: #1a9999 !important;
+  border-color: #1a9999 !important;
+  box-shadow: 0 5px 15px rgba(32, 178, 170, 0.3);
+}
+
+.btn-outline-light {
+  border-radius: 8px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.btn-outline-light:hover {
+  box-shadow: 0 5px 15px rgba(255, 255, 255, 0.3);
+}
+
+.btn {
+  border-radius: 8px;
+  padding: 0.75rem;
+  font-weight: 600;
+  transition: background-color 0.3s ease, border-color 0.3s ease,
+              box-shadow 0.3s ease;
+  margin: 0.5rem 0;
+}
+
+.btn-success {
+  background-color: #20b2aa !important;
+  border-color: #20b2aa !important;
+}
+
+.btn-success:hover:not(:disabled) {
+  background-color: #1a9999 !important;
+  border-color: #1a9999 !important;
+  box-shadow: 0 5px 15px rgba(32, 178, 170, 0.3);
+}
+
+.btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+a {
+  color: #6c757d !important;
+  font-size: 0.9rem;
+  text-decoration: none !important;
+  transition: color 0.3s ease;
+}
+
+a:hover {
+  color: #20b2aa !important;
+}
+
+.display-6 {
+  color: #20b2aa !important;
+}
