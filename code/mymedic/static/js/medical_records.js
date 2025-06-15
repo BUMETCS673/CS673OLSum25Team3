@@ -25,14 +25,12 @@ document.addEventListener("DOMContentLoaded", function () {
         { title: "Flu Vaccination", date: "2025-03-12", summary: "Administered seasonal influenza vaccine. No adverse reactions." },
         { title: "Dermatology Consultation", date: "2025-04-13", summary: "Eczema well-controlled. Continue current treatment regimen." },
         { title: "Eye Examination", date: "2025-05-14", summary: "Vision remains stable at 20/20. Annual follow-up recommended." },
-        { title: "MRI Scan (Knee)", date: "2025-06-15", summary: "Significant improvement in inflammation. Continue physiotherapy." }
+        { title: "Dental Extraction", date: "2025-08-05", summary: "One extraction due to a deep cavity." },
     ];
-
-    // Update dashboard stats
-    localStorage.setItem("medical_records_count", records.length);
 
     function loadRecords() {
         container.innerHTML = "";
+        localStorage.setItem("medical_records_count", records.length);
 
         if (records.length === 0) {
             if (recordMessage) {

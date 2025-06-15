@@ -35,3 +35,13 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   });
 });
+
+document.addEventListener("DOMContentLoaded", function () {
+  const recordCount = localStorage.getItem("medical_records_count");
+  if (recordCount !== null) {
+    const countElement = document.getElementById("medical-records-count");
+    if (countElement) {
+      countElement.textContent = recordCount;
+    }
+  }
+});
