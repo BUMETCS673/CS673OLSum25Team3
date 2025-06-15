@@ -15,11 +15,16 @@ from django.contrib.auth import login, authenticate, logout
 from django.http import HttpResponse
 from .forms import CustomUserCreationForm, CustomAuthenticationForm, CustomUserUpdateForm
 from django.contrib.auth.models import User
-from .models import Patient
+from .models import Patient, Prescription
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from users.models import Appointment
 from django.shortcuts import get_object_or_404
+from django.http import JsonResponse
+from django.views.decorators.http import require_GET
+import json
+from django.conf import settings
+
 
 # Create your views here.
 def register(request):
@@ -128,3 +133,34 @@ def cancel_appointment(request, appointment_id):
  
 def privacy_policy(request):
     return render(request, 'users/privacy_policy.html')
+
+@require_GET
+def search_records(request):
+    """
+    @ai-generated
+    Tool: ChatGPT (OpenAI)
+    Prompt: "Write a Django search API view that filters JSON medical records by doctor or prescription for a specific user"
+    Generated on: 2025-06-07
+    Modified by: Mengliang Tan
+    Modifications: Add fake id for testing
+    Reason for using JSON:
+    The team has not yet set up a real database, so this view uses a local `records.json` file as a temporary data source. This allows 
+    frontend development and testing to proceed while backend models and database configurations are still in progress.
+
+    Verified: ✅ Tested via frontend
+    """
+    query = request.GET.get("q", "").lower()
+    user_id = 1  # fake id for testing
+
+    with open("data_mockup/records.json") as f:
+        records = json.load(f)
+
+    matched = [
+        {key: r[key] for key in r if key != "user_id"}
+        for r in records
+        if r["user_id"] == user_id and (
+            query in r["prescription"].lower() or query in r["doctor"].lower()
+        )
+    ]
+
+    return JsonResponse(matched, safe=False)
