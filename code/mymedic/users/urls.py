@@ -8,6 +8,7 @@ urlpatterns = [
     path('profile', views.profile, name='profile'),
     path('mlogout', views.mlogout, name='mlogout'),
     path('', views.mlogin, name=''),  # Default route to login
+    path('cancel/<int:appointment_id>/', views.cancel_appointment, name='cancel_appointment'),
     path("privacy/", views.privacy_policy, name="privacy_policy"),
     
 ]

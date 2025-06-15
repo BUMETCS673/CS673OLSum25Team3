@@ -210,6 +210,55 @@
   font-weight: 500;
 }
 
+
+/* Appointment Card Section */
+.appointments-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  justify-content: flex-start;
+  margin-top: 2rem;
+}
+
+.appointments-section .card {
+  width: 260px;
+  height: 200px;
+  padding: 1.2rem 1rem;
+  margin-bottom: 3rem;
+  border-radius: 12px;
+  background-color: #ffffff;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+
+.appointment-date {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: #20b2aa;
+}
+
+.appointment-detail {
+  font-size: 0.95rem;
+  color: #444;
+  margin-bottom: 1rem;
+}
+
+.appointments-section .card form {
+  margin-top: auto;
+}
+
+.appointments-section .btn-danger {
+  background-color: #dc3545;
+  border-color: #dc3545;
+  font-weight: 500;
+}
+
+
 /* Responsive */
 @media (max-width: 768px) {
   .welcome-title {

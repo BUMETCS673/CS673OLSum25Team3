@@ -99,6 +99,25 @@
         </div>
       </div>
 
+      <!-- Upcoming Appointments -->
+      <div class="appointments-section">
+        <h3 class="section-title">Your Upcoming Appointments</h3>
+        <div class="appointments-container">
+          {% for appointment in appointments %}
+            <div class="card">
+              <div class="appointment-date">{{ appointment.date|date:"F d, Y" }}</div>
+              <div class="appointment-detail">Appointment with {{ appointment.doctor_name }}</div>
+              <div class="appointment-reason">{{ appointment.reason }}</div>
+              <form method="POST" action="{% url 'cancel_appointment' appointment.id %}" onsubmit="return confirm('Are you sure you want to cancel this appointment?');">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger">Cancel</button>
+              </form>              
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+
+      
       <!-- Quick Actions -->
       <div class="actions-section">
         <div class="row">
@@ -133,6 +152,7 @@
           </div>
         </div>
       </div>
+
 
       <!-- Recent Activity -->
       <div class="activity-section">
