@@ -17,7 +17,17 @@ from django.http import HttpResponse
 
 from django.contrib.auth.models import User
 from .forms import CustomUserCreationForm, CustomAuthenticationForm, CustomUserUpdateForm
-from .models import Patient
+from django.contrib.auth.models import User
+from .models import Patient, Prescription
+from django.contrib.auth.decorators import login_required
+from django.contrib import messages
+from users.models import Appointment
+from django.shortcuts import get_object_or_404
+from django.http import JsonResponse
+from django.views.decorators.http import require_GET
+import json
+from django.conf import settings
+
 
 def register(request):
     """
@@ -73,7 +83,8 @@ def dashboard(request):
     """
     Display user dashboard.
     """
-    return render(request, 'users/dashboard.html')
+    appointments = Appointment.objects.filter(user=request.user).order_by('date')
+    return render(request, 'users/dashboard.html', {'appointments': appointments})
 
 @login_required(login_url='mlogin')
 def profile(request):
@@ -111,11 +122,51 @@ def profile(request):
             patient_data.save()
             user_data.save()
             return redirect("profile")
+    else:
+        return render(request, 'users/profile.html', context={"form": form})
 
-    return render(request, 'users/profile.html', {"form": form})
+@login_required(login_url='mlogin')
+def cancel_appointment(request, appointment_id):
+    appointment = get_object_or_404(Appointment, id=appointment_id, user=request.user)
+    if request.method == "POST":
+        appointment.delete()
+        messages.success(request, "Appointment canceled successfully.")
+    return redirect("dashboard")
+ 
+def privacy_policy(request):
+    return render(request, 'users/privacy_policy.html')
 
+@require_GET
+def search_records(request):
+    """
+    @ai-generated
+    Tool: ChatGPT (OpenAI)
+    Prompt: "Write a Django search API view that filters JSON medical records by doctor or prescription for a specific user"
+    Generated on: 2025-06-07
+    Modified by: Mengliang Tan
+    Modifications: Add fake id for testing
+    Reason for using JSON:
+    The team has not yet set up a real database, so this view uses a local `records.json` file as a temporary data source. This allows 
+    frontend development and testing to proceed while backend models and database configurations are still in progress.
 
-# ──────────────── Medical Records View ────────────────
+    Verified: ✅ Tested via frontend
+    """
+    query = request.GET.get("q", "").lower()
+    user_id = 1  # fake id for testing
+
+    with open("data_mockup/records.json") as f:
+        records = json.load(f)
+
+    matched = [
+        {key: r[key] for key in r if key != "user_id"}
+        for r in records
+        if r["user_id"] == user_id and (
+            query in r["prescription"].lower() or query in r["doctor"].lower()
+        )
+    ]
+
+    return JsonResponse(matched, safe=False)
+
 @login_required(login_url='mlogin')
 def medical_records(request):
     """

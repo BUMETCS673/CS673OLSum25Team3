@@ -18,13 +18,10 @@
           </div>
           <div class="col-auto">
             <div class="user-profile">
-              <span class="text-white fw-semibold me-3">{{ user.username }}</span>
-              <button class="btn btn-success w-100 mt-3" style="margin-right: 10px;">
-                <a class="text-muted" href="{% url 'profile' %}">Profile</a>
-              </button>
-              <button class="btn btn-success w-100 mt-3">
-                <a class="text-muted" href="{% url 'mlogout' %}">Logout</a>
-              </button>
+              <span class="user-info me-3" style="margin-right: 10px;">👤 {{ user.username }}</span>
+              <a href="/dashboard" class="btn btn-info nav-btn" style="margin-right: 10px;">📊 Dashboard</a>
+              <a href="/profile" class="btn btn-success nav-btn" style="margin-right: 10px;">👤 Profile</a>
+              <a href="/mlogout" class="btn btn-danger nav-btn" style="margin-right: 10px;">🚪 Logout</a>
             </div>
           </div>
         </div>
@@ -33,7 +30,22 @@
     <!-- Main Content -->
   <main class="dashboard-main">
     <div class="container-fluid">
-
+      <!-- Search -->
+        <div class="search-section animate__animated animate__fadeIn">
+          <div class="row">
+            <div class="col-12">
+              <div class="search-card">
+                <h2 class="search-title">Search Records</h2>
+                <div class="search-row">
+                  <input type="text" id="search-input" placeholder="Enter doctor or prescription" />
+                  <button id="search-btn" class="btn btn-success" onclick="searchRecords()">Search</button>
+                </div>
+                <div id="search-results" class="mt-3"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      
       <!-- Welcome Section -->
       <div class="welcome-section animate__animated animate__fadeIn">
         <div class="row">
@@ -99,6 +111,25 @@
         </div>
       </div>
 
+      <!-- Upcoming Appointments -->
+      <div class="appointments-section">
+        <h3 class="section-title">Your Upcoming Appointments</h3>
+        <div class="appointments-container">
+          {% for appointment in appointments %}
+            <div class="card">
+              <div class="appointment-date">{{ appointment.date|date:"F d, Y" }}</div>
+              <div class="appointment-detail">Appointment with {{ appointment.doctor_name }}</div>
+              <div class="appointment-reason">{{ appointment.reason }}</div>
+              <form method="POST" action="{% url 'cancel_appointment' appointment.id %}" onsubmit="return confirm('Are you sure you want to cancel this appointment?');">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger">Cancel</button>
+              </form>              
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+
+      
       <!-- Quick Actions -->
       <div class="actions-section">
         <div class="row">
@@ -133,6 +164,7 @@
           </div>
         </div>
       </div>
+
 
       <!-- Recent Activity -->
       <div class="activity-section">
@@ -169,16 +201,11 @@
         </div>
       </div>
     </div>
-  </main>
+    <footer class="mt-4 text-center">
+      <a href="{% url 'privacy_policy' %}" class="text-dark fw-bold fs-6">Privacy Policy</a>
 
-  <script>
-    document.addEventListener("DOMContentLoaded", function () {
-      const countEl = document.getElementById("medical-records-count");
-      const count = localStorage.getItem("medical_records_count");
-      if (countEl && count) {
-        countEl.textContent = count;
-      }
-    });
-  </script>
-</body>
+    </footer>
+  </main>
+  <script src="{% static 'js/dashboard.js' %}"></script>
+  <script src="{% static 'js/search.js' %}"></script>
 </html>

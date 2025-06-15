@@ -18,13 +18,10 @@
           </div>
           <div class="col-auto">
             <div class="user-profile">
-              <span class="username">{{ user.username }}</span>
-              <button class="btn btn-success w-100 mt-3" style="margin-right: 10px;">
-               <a class="text-muted" href="{% url 'dashboard' %}">Dashboard</a>
-              </button>
-              <button class="btn btn-success w-100 mt-3">
-                <a class="text-muted" href="{% url 'mlogout' %}">Logout</a>
-              </button>
+              <span class="user-info me-3" style="margin-right: 10px;">👤 {{ user.username }}</span>
+              <a href="/dashboard" class="btn btn-info nav-btn" style="margin-right: 10px;">📊 Dashboard</a>
+              <a href="/profile" class="btn btn-success nav-btn" style="margin-right: 10px;">👤 Profile</a>
+              <a href="/mlogout" class="btn btn-danger nav-btn" style="margin-right: 10px;">🚪 Logout</a>
             </div>
           </div>
         </div>

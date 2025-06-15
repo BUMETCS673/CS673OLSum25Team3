@@ -13,7 +13,7 @@ services:
 
     # Mount the local directory to the container directory for the website
     volumes:
-      - ./website:/usr/src/website
+      - ./mymedic:/usr/src/mymedic
 
     # Command to run the Django development server
-    command: python manage.py runserver 0.0.0:8000
+    command: sh -c "python manage.py makemigrations && python manage.py migrate && python manage.py runserver 0.0.0:8000"
