@@ -1,18 +1,21 @@
 """
-Views for rendering the registration, sign up, and dashboard, and a logout API endpoint
+Views for rendering the registration, login, dashboard, profile, and logout.
 
 @ai-generated
 Tool: GitHub Copilot
-Prompt: N/A (Code completion unprompted)
 Generated on: 06-08-2025
 Modified by: Tyler Gonsalves
 Modifications: Added error handling, function decorators and updated docstrings
 Verified: ✅ Unit tested, reviewed
-*/
 """
+
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate, logout
+from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 from django.http import HttpResponse
+
+from django.contrib.auth.models import User
 from .forms import CustomUserCreationForm, CustomAuthenticationForm, CustomUserUpdateForm
 from django.contrib.auth.models import User
 from .models import Patient, Prescription
@@ -26,10 +29,9 @@ import json
 from django.conf import settings
 
 
-# Create your views here.
 def register(request):
     """
-    Render the user registration view.
+    Handle user registration.
     """
     form = CustomUserCreationForm()
     if request.method == 'POST':
@@ -46,12 +48,11 @@ def register(request):
             return redirect("mlogin")
         else:
             messages.error(request, "Invalid registration credentials")
-
-    return render(request, 'users/register.html', context={'form': form})
+    return render(request, 'users/register.html', {'form': form})
 
 def mlogin(request):
     """
-    Render the user login view.
+    Handle user login.
     """
     form = CustomAuthenticationForm()
     if request.method == 'POST':
@@ -64,17 +65,15 @@ def mlogin(request):
                 login(request, user)
                 messages.success(request, "Login successful")
                 return redirect("dashboard")
-            else:
-                messages.error(request, "Invalid credentials")
-                return redirect("mlogin")
-        else:
             messages.error(request, "Invalid credentials")
             return redirect("mlogin")
-    return render(request, 'users/login.html', context={'form': form})
+        messages.error(request, "Invalid credentials")
+        return redirect("mlogin")
+    return render(request, 'users/login.html', {'form': form})
 
 def mlogout(request):
     """
-    Handle user logout and redirect to the login page.
+    Log out the current user and redirect to login.
     """
     logout(request)
     return redirect("mlogin")
@@ -82,7 +81,7 @@ def mlogout(request):
 @login_required(login_url='mlogin')
 def dashboard(request):
     """
-    Render the dashboard view for users.
+    Display user dashboard.
     """
     appointments = Appointment.objects.filter(user=request.user).order_by('date')
     return render(request, 'users/dashboard.html', {'appointments': appointments})
@@ -90,15 +89,15 @@ def dashboard(request):
 @login_required(login_url='mlogin')
 def profile(request):
     """
-    Render the user profile view.
+    Show and update user profile.
     """
     user = request.user
-    try:
-        patient_data = Patient.objects.filter(username=user.username).first()
-        user_data = User.objects.filter(username=user.username).first()
-    except Patient.DoesNotExist:
+    patient_data = Patient.objects.filter(username=user.username).first()
+    user_data = User.objects.filter(username=user.username).first()
+
+    if not patient_data:
         return HttpResponse("Patient data not found", status=404)
-    
+
     form = CustomUserUpdateForm(initial={
         "firstname": patient_data.first_name,
         "lastname": patient_data.last_name,
@@ -106,6 +105,7 @@ def profile(request):
         "phone": patient_data.phone_number,
         "birth_date": patient_data.date_of_birth
     })
+
     if request.method == 'POST':
         form = CustomUserUpdateForm(request.POST)
         if form.is_valid():
@@ -114,9 +114,11 @@ def profile(request):
             patient_data.email = form.cleaned_data.get("email", patient_data.email)
             patient_data.phone_number = form.cleaned_data.get("phone", patient_data.phone_number)
             patient_data.date_of_birth = form.cleaned_data.get("birth_date", patient_data.date_of_birth)
+
             user_data.first_name = form.cleaned_data.get("first_name", user_data.first_name)
             user_data.last_name = form.cleaned_data.get("last_name", user_data.last_name)
             user_data.email = form.cleaned_data.get("email", user_data.email)
+
             patient_data.save()
             user_data.save()
             return redirect("profile")
@@ -164,3 +166,10 @@ def search_records(request):
     ]
 
     return JsonResponse(matched, safe=False)
+
+@login_required(login_url='mlogin')
+def medical_records(request):
+    """
+    Render the static medical records page for patients.
+    """
+    return render(request, 'users/medical_records.html')

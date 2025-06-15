@@ -1,3 +1,4 @@
+
 {% load static %}
 <html>
 <head>
@@ -17,14 +18,10 @@
           </div>
           <div class="col-auto">
             <div class="user-profile">
-              <div class="user-avatar"></div>
-              <span class="username">{{ user.username }}</span>
-              <button class="btn btn-success w-100 mt-3" style="margin-right: 10px;">
-                <a class="text-muted" href="{% url 'profile' %}">Profile</a>
-              </button>
-              <button class="btn btn-success w-100 mt-3">
-                <a class="text-muted" href="{% url 'mlogout' %}">Logout</a>
-              </button>
+              <span class="user-info me-3" style="margin-right: 10px;">👤 {{ user.username }}</span>
+              <a href="/dashboard" class="btn btn-info nav-btn" style="margin-right: 10px;">📊 Dashboard</a>
+              <a href="/profile" class="btn btn-success nav-btn" style="margin-right: 10px;">👤 Profile</a>
+              <a href="/mlogout" class="btn btn-danger nav-btn" style="margin-right: 10px;">🚪 Logout</a>
             </div>
           </div>
         </div>
@@ -88,7 +85,7 @@
             <div class="stat-card">
               <div class="stat-icon records"></div>
               <div class="stat-content">
-                <h3 class="stat-number">12</h3>
+                <h3 class="stat-number" id="medical-records-count">0</h3>
                 <p class="stat-label">Medical Records</p>
               </div>
             </div>
@@ -146,7 +143,7 @@
               <div class="action-icon schedule"></div>
               <h4 class="action-title">Schedule Appointment</h4>
               <p class="action-description">Book your next visit with your healthcare provider</p>
-              <button class="btn btn-primary">Schedule Now</button>
+              <button class="btn btn-schedule">Schedule Now</button>
             </div>
           </div>
           <div class="col-lg-4 col-md-6 mb-4">
@@ -154,7 +151,7 @@
               <div class="action-icon records"></div>
               <h4 class="action-title">View Records</h4>
               <p class="action-description">Access your complete medical history and test results</p>
-              <button class="btn btn-primary">View Records</button>
+              <a href="{% url 'medical_records' %}" class="btn btn-records">View Records</a>
             </div>
           </div>
           <div class="col-lg-4 col-md-6 mb-4">
@@ -162,7 +159,7 @@
               <div class="action-icon prescriptions"></div>
               <h4 class="action-title">Prescriptions</h4>
               <p class="action-description">Manage your current medications and refill requests</p>
-              <button class="btn btn-primary">Manage Meds</button>
+              <button class="btn btn-meds">Manage Meds</button>
             </div>
           </div>
         </div>
@@ -203,7 +200,6 @@
           </div>
         </div>
       </div>
-
     </div>
     <footer class="mt-4 text-center">
       <a href="{% url 'privacy_policy' %}" class="text-dark fw-bold fs-6">Privacy Policy</a>

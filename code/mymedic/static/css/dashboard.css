@@ -69,6 +69,85 @@
   text-align: center;
 }
 
+.header-title {
+  color: rgb(170, 255, 222);
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+/* Search Section */
+.search-section {
+  margin-bottom: 1rem;
+}
+
+.search-card {
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 15px;
+  padding: 2rem;
+  padding-top: 1rem;
+  padding-bottom: 0.25rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(10px);
+}
+
+.search-title {
+  color: #343a40;
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.search-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+#search-input {
+  flex: 1;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-sizing: border-box;
+}
+
+.btn {
+  border-radius: 5px !important;
+  font-weight: 600;
+}
+
+.btn-success {
+  background-color: #20b2aa !important;
+  border-color: #20b2aa !important;
+}
+
+.btn-success:hover:not(:disabled) {
+  background-color: #1a9999 !important;
+  border-color: #1a9999 !important;
+  box-shadow: 0 5px 15px rgba(32, 178, 170, 0.3);
+}
+
+.btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+#search-results {
+  margin-top: 20px;
+  font-size: 15px;
+  color: #555;
+  text-align: center;
+}
+
+.header-title {
+  color: rgb(170, 255, 222);
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0;
+}
 /* Welcome Section */
 .welcome-section {
   margin-bottom: 2rem;
@@ -142,6 +221,15 @@
   margin: 0 auto 1rem;
 }
 
+.stat-icon.profile-icon {
+  background: linear-gradient(45deg, #20b2aa, #008b8b); /* teal like appointments */
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  display: inline-block;
+  vertical-align: middle;
+}
+
 .stat-icon.upcoming {
   background: linear-gradient(45deg, #20b2aa, #008b8b);
 }
@@ -207,6 +295,14 @@
 
 .action-icon.schedule {
   background: linear-gradient(45deg, #20b2aa, #008b8b);
+}
+
+.action-icon.records{
+  background: linear-gradient(45deg, #667eea, #764ba2);
+}
+
+.action-icon.prescriptions {
+  background: linear-gradient(45deg, #4facfe, #00f2fe);
 }
 
 .action-title {
