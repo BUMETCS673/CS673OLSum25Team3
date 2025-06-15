@@ -27,7 +27,7 @@ class Patient(models.Model):
     
 class MedicalRecord(models.Model):
     """Database Model for patients' medical records history"""
-    patient = models.ForeignKey(Patient, on_delete=models.CASCADE)
+    user = models.ForeignKey(Patient, on_delete=models.CASCADE)
     title = models.CharField(max_length=255)
     date = models.DateField()
     summary = models.TextField()

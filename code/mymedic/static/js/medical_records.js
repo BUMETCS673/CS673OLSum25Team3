@@ -5,6 +5,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const confirmDownloadBtn = document.getElementById("confirm-download");
     const retryBtn = document.getElementById("retry-btn");
     const errorContainer = document.getElementById("error-container");
+    const recordMessage = document.getElementById("record-message");
 
     const records = [
         { title: "Annual Physical Exam", date: "2024-01-15", summary: "Routine check-up. Vitals normal. No follow-up needed." },
@@ -27,11 +28,20 @@ document.addEventListener("DOMContentLoaded", function () {
         { title: "MRI Scan (Knee)", date: "2025-06-15", summary: "Significant improvement in inflammation. Continue physiotherapy." }
     ];
 
-    // Update record count for dashboard use
+    // Update dashboard stats
     localStorage.setItem("medical_records_count", records.length);
 
     function loadRecords() {
         container.innerHTML = "";
+
+        if (records.length === 0) {
+            if (recordMessage) {
+                recordMessage.style.display = "block";
+            }
+            downloadBtn.disabled = true;
+            return;
+        }
+
         records.forEach((r) => {
             const col = document.createElement("div");
             col.className = "col-md-4";
@@ -43,9 +53,14 @@ document.addEventListener("DOMContentLoaded", function () {
                 </div>`;
             container.appendChild(col);
         });
+
         container.style.display = "flex";
         errorContainer.style.display = "none";
         downloadBtn.disabled = false;
+
+        if (recordMessage) {
+            recordMessage.style.display = "none";
+        }
     }
 
     retryBtn?.addEventListener("click", loadRecords);

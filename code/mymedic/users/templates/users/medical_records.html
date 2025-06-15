@@ -33,6 +33,7 @@
             </p>
         </div>
 
+        <!-- Error Message Container -->
         <div id="error-container" class="error-card text-center animate__animated animate__fadeInUp">
             <div class="error-icon">⚠️</div>
             <h3 class="error-title">Failed to load medical records</h3>
@@ -40,15 +41,21 @@
             <button id="retry-btn" class="btn retry-btn">🔄 Try Again</button>
         </div>
 
+        <!-- Medical Records Display -->
         <div id="records-container" class="row g-3 mb-4" style="display: none;"></div>
 
+        <!-- Message for empty record set -->
+        <div id="record-message" class="alert alert-warning text-center" style="display: none;">
+            No records available to export
+        </div>
+
+        <!-- Download Button -->
         <div class="text-center mb-4">
             <button id="download-btn" class="btn btn-download">📥 Download PDF</button>
         </div>
-        
     </div>
 
-    <!-- Modal -->
+    <!-- PDF Preview Modal -->
     <div class="modal fade" id="previewModal" tabindex="-1" aria-labelledby="previewModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
