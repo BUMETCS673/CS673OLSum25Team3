@@ -2,13 +2,14 @@ import random
 from django.core.mail import send_mail
 from django.conf import settings
 
+def generate_mfa_code():
+    return str(random.randint(100000, 999999))
+
 def send_mfa_code(user_email, request):
-    code = str(random.randint(100000, 999999))
-    request.session['mfa_code'] = code
+    code = generate_mfa_code()
+    print("Sending MFA code:", code)
 
-    print("Sending MFA code:", code) 
-
-    send_mail(
+    result = send_mail(
         subject="Your MyMedic MFA Code",
         message=f"Your verification code is: {code}",
         from_email=settings.DEFAULT_FROM_EMAIL,
@@ -17,3 +18,5 @@ def send_mfa_code(user_email, request):
     )
 
     print("Was the email sent?:", result)
+
+    request.session['mfa_code'] = code
