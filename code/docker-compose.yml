@@ -5,3 +5,5 @@ services:
     ports:
       - 8080:8000
     command: /docker-entrypoint.sh /docker-cmd.sh
+    env_file:
+      - .env
