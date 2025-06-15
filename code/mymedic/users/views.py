@@ -18,6 +18,8 @@ from django.contrib.auth.models import User
 from .models import Patient
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from users.models import Appointment
+from django.shortcuts import get_object_or_404
 
 # Create your views here.
 def register(request):
@@ -77,7 +79,8 @@ def dashboard(request):
     """
     Render the dashboard view for users.
     """
-    return render(request, 'users/dashboard.html')
+    appointments = Appointment.objects.filter(user=request.user).order_by('date')
+    return render(request, 'users/dashboard.html', {'appointments': appointments})
 
 @login_required(login_url='mlogin')
 def profile(request):
@@ -114,3 +117,12 @@ def profile(request):
             return redirect("profile")
     else:
         return render(request, 'users/profile.html', context={"form": form})
+    
+
+@login_required(login_url='mlogin')
+def cancel_appointment(request, appointment_id):
+    appointment = get_object_or_404(Appointment, id=appointment_id, user=request.user)
+    if request.method == "POST":
+        appointment.delete()
+        messages.success(request, "Appointment canceled successfully.")
+    return redirect("dashboard")

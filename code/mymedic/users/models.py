@@ -11,6 +11,7 @@ Modifications: Added docstrings, username field, and allowed null fields for pho
 Verified: ✅ Unit tested, reviewed
 """
 from django.db import models
+from django.contrib.auth.models import User 
 
 # Create your models here.
 class Patient(models.Model):
@@ -24,3 +25,14 @@ class Patient(models.Model):
 
     def __str__(self):
         return f"{self.first_name} {self.last_name} ({self.email})"
+    
+
+class Appointment(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    patient_name = models.CharField(max_length=100)
+    doctor_name = models.CharField(max_length=100)
+    date = models.DateField()
+    reason = models.CharField(max_length=200)
+
+    def __str__(self):
+        return f"{self.date} - {self.patient_name} with {self.doctor_name}"
