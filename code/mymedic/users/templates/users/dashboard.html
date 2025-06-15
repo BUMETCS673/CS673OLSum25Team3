@@ -107,7 +107,7 @@
             <div class="card">
               <div class="appointment-date">{{ appointment.date|date:"F d, Y" }}</div>
               <div class="appointment-detail">Appointment with {{ appointment.doctor_name }}</div>
-              <div class="appointment-reason">{{ appointment.reason }}</div> <!-- Bunu ekledik -->
+              <div class="appointment-reason">{{ appointment.reason }}</div>
               <form method="POST" action="{% url 'cancel_appointment' appointment.id %}">
                 {% csrf_token %}
                 <button type="submit" class="btn btn-danger">Cancel</button>

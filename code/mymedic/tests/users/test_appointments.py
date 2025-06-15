@@ -8,7 +8,7 @@ class AppointmentTests(TestCase):
     def setUp(self):
         self.client = Client()
         self.user = User.objects.create_user(username='testuser', password='testpass')
-        Appointment.objects.create(
+        self.appointment = Appointment.objects.create(
             user=self.user,
             patient_name='testuser',
             doctor_name='Dr. House',
@@ -22,3 +22,9 @@ class AppointmentTests(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, 'Dr. House')
         self.assertContains(response, 'Annual Checkup')
+
+    def test_cancel_appointment(self):
+        self.client.login(username='testuser', password='testpass')
+        response = self.client.post(reverse('cancel_appointment', args=[self.appointment.id]))
+        self.assertRedirects(response, reverse('dashboard'))
+        self.assertFalse(Appointment.objects.filter(id=self.appointment.id).exists())
