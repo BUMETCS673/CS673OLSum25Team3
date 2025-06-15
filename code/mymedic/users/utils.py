@@ -15,3 +15,5 @@ def send_mfa_code(user_email, request):
         recipient_list=[user_email],
         fail_silently=False
     )
+
+    print("Was the email sent?:", result)
