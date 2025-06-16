@@ -1,66 +1,26 @@
-FROM python:3.13-alpine AS base
+FROM python:3.13-alpine
 
-FROM base AS builder
+RUN apk update \
+ && apk add --no-cache \
+      gcc musl-dev python3-dev libffi-dev openssl-dev \
+      nginx su-exec
 
-RUN apk update && apk --no-cache add python3-dev libpq-dev && mkdir /install
-WORKDIR /install
-COPY requirements.txt ./
-RUN pip install --no-cache-dir --prefix=/install -r ./requirements.txt
+RUN mkdir -p /usr/src/mymedic /sqlite /var/run/nginx
+WORKDIR /usr/src/mymedic
 
-FROM base
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
 
-ARG USER=user
-ARG USER_UID=1001
-ARG PROJECT_NAME=mymedic
-ARG GUNICORN_PORT=8000
-ARG GUNICORN_WORKERS=2
-# the value is in seconds
-ARG GUNICORN_TIMEOUT=60
-ARG GUNICORN_LOG_LEVEL=info
-ARG DJANGO_BASE_DIR=/usr/src/$PROJECT_NAME
-ARG DJANGO_STATIC_ROOT=/var/www/static
-ARG DJANGO_MEDIA_ROOT=/var/www/media
-ARG DJANGO_SQLITE_DIR=/sqlite
+COPY . .
 
-# if no superuser (currently: Admin, Admin, indhhra@bu.edu)
-ARG DJANGO_SUPERUSER_USERNAME=admin
-ARG DJANGO_SUPERUSER_PASSWORD=admin
-ARG DJANGO_SUPERUSER_EMAIL=admin@example.com
-ARG DJANGO_DEV_SERVER_PORT=8000
+COPY nginx.conf /etc/nginx/nginx.conf
 
+RUN adduser -D -u 1001 user \
+ && chown -R user:user /usr/src/mymedic /sqlite \
+ && chmod +x /usr/src/mymedic/docker-entrypoint.sh \
+              /usr/src/mymedic/docker-cmd.sh
 
-ENV \
-	USER=$USER \
-	USER_UID=$USER_UID \
-	PROJECT_NAME=$PROJECT_NAME \
-	GUNICORN_PORT=$GUNICORN_PORT \
-	GUNICORN_WORKERS=$GUNICORN_WORKERS \
-	GUNICORN_TIMEOUT=$GUNICORN_TIMEOUT \
-	GUNICORN_LOG_LEVEL=$GUNICORN_LOG_LEVEL \
-	DJANGO_BASE_DIR=$DJANGO_BASE_DIR \
-	DJANGO_STATIC_ROOT=$DJANGO_STATIC_ROOT \
-	DJANGO_MEDIA_ROOT=$DJANGO_MEDIA_ROOT \
-	DJANGO_SQLITE_DIR=$DJANGO_SQLITE_DIR \
-	DJANGO_SUPERUSER_USERNAME=$DJANGO_SUPERUSER_USERNAME \
-	DJANGO_SUPERUSER_PASSWORD=$DJANGO_SUPERUSER_PASSWORD \
-	DJANGO_SUPERUSER_EMAIL=$DJANGO_SUPERUSER_EMAIL \
-	DJANGO_DEV_SERVER_PORT=$DJANGO_DEV_SERVER_PORT
+EXPOSE 80 8000
 
-COPY --from=builder /install /usr/local
-COPY docker-entrypoint.sh /
-COPY docker-cmd.sh /
-COPY $PROJECT_NAME $DJANGO_BASE_DIR
-
-# User
-RUN chmod +x /docker-entrypoint.sh /docker-cmd.sh && \
-    apk --no-cache add su-exec libpq-dev && \
-    mkdir -p $DJANGO_STATIC_ROOT $DJANGO_MEDIA_ROOT $DJANGO_SQLITE_DIR && \
-    adduser -s /bin/sh -D -u $USER_UID $USER && \
-    chown -R $USER:$USER $DJANGO_BASE_DIR $DJANGO_STATIC_ROOT $DJANGO_MEDIA_ROOT $DJANGO_SQLITE_DIR
-
-WORKDIR $DJANGO_BASE_DIR
-
-RUN python manage.py collectstatic --noinput && \
-	python manage.py makemigrations && \
-	python manage.py migrate && \
-	python manage.py createsuperuser --noinput
+ENTRYPOINT ["/usr/src/mymedic/docker-entrypoint.sh"]
+CMD ["/usr/src/mymedic/docker-cmd.sh"]

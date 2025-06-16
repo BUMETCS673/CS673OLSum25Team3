@@ -17,33 +17,31 @@ cp .env.example .env
 ```
 
 Edit `.env` and add a DJANGO_SECRET_KEY generated from [Django Secret Key Generator](https://djecrety.ir/).
----
-
-### 3. Build the Docker Image
-
-```bash
-docker build -t mymedic .
-```
+Add the email and app passwords for the Gmail account.
 
 ---
 
-### 4. Run the Server
+### 3. Run the Server
 
-#### Running Tests
-```bash
-docker run --rm mymedic pytest -v tests/
-```
-
-#### Run in Development Mode
+If Docker gives an error about permissions for executing docker-cmd or docker-entrypoint, run the following command to fix it:
 
 ```bash
-docker compose -f docker-compose-dev.yml up -d
+chmod +x docker-cmd.sh
+chmod +x docker-entrypoint.sh
 ```
 
 #### Run in Production Mode
 
 ```bash
-docker compose up -d
+docker compose up --build --force-recreate
 ```
 
-This binds the local website code into the container and serves it at `http://127.0.0.1:8080`.
+This binds the local website code into the container and serves it at `http://localhost:8080`.
+
+#### To remove old containers and images, run:
+
+```bash
+docker compose down -v --remove-orphans
+```
+
+---
