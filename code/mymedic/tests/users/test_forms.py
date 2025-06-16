@@ -57,8 +57,8 @@ class TestCustomUserCreationForm:
             "username": "testuser",
             "password1": "gsid234#$",
             "password2": "gsid234#$",
-            "firstname": "Jane",
-            "lastname": "Doe",
+            "first_name": "Jane",
+            "last_name": "Doe",
             "email": "jane@gmail.com"
         }
         form = CustomUserCreationForm(data=data)
@@ -69,32 +69,32 @@ class TestCustomUserCreationForm:
             "username": "",
             "password1": "gsid234#$",
             "password2": "gsid234#$",
-            "firstname": "Jane",
-            "lastname": "Doe",
+            "first_name": "Jane",
+            "last_name": "Doe",
             "email": "jane@gmail.com"
         },
         {
             "username": "test",
             "password1": "gsid234#$",
             "password2": "gid234#$",
-            "firstname": "Jane",
-            "lastname": "Doe",
+            "first_name": "Jane",
+            "last_name": "Doe",
             "email": "jane@gmail.com"
         },
         {
             "username": "testuser",
             "password1": "gsid234#$",
             "password2": "gsid234#$",
-            "firstname": "Jane",
-            "lastname": "Doe",
+            "first_name": "Jane",
+            "last_name": "Doe",
             "email": ""
         },
         {
             "username": "testuser",
             "password1": "gsid234#$",
             "password2": "gsid234#$",
-            "firstname": "",
-            "lastname": "Doe",
+            "first_name": "",
+            "last_name": "Doe",
             "email": "jane@gmail.com"
         },
     ])
@@ -107,8 +107,8 @@ class TestCustomUserUpdateForm:
     @pytest.mark.django_db
     def test_valid_form(self):
         data = {
-            "firstname": "John",
-            "lastname": "Doe",
+            "first_name": "John",
+            "last_name": "Doe",
             "email": "john@gmail.com",
             "phone": "1234567890",
             "birth_date": "1970-01-01"
@@ -118,22 +118,22 @@ class TestCustomUserUpdateForm:
 
     @pytest.mark.parametrize("data", [
         {
-            "firstname": "John",
-            "lastname": "Doe",
+            "first_name": "John",
+            "last_name": "Doe",
             "email": "john@gmail.com",
             "phone": "123456789",
             "birth_date": "1970-01-01"
         },
         {
-            "firstname": "John",
-            "lastname": "Doe",
+            "first_name": "John",
+            "last_name": "Doe",
             "email": "john",
             "phone": "1234567890",
             "birth_date": "1970-01-01"
         },
         {
-            "firstname": "",
-            "lastname": "",
+            "first_name": "",
+            "last_name": "",
             "email": "john@gmail.com",
             "phone": "1234567890",
             "birth_date": "1970-01-01"

@@ -1,0 +1,71 @@
+body {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+}
+
+.auth-box {
+  background: white;
+  padding: 3.5rem;
+  border-radius: 21px;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+  width: 100%;
+  max-width: 532px;
+  backdrop-filter: blur(10px);
+}
+
+.form-control {
+  margin-bottom: 1rem;
+  border-radius: 8px;
+  border: 2px solid #e9ecef;
+  padding: 0.75rem 1rem;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.form-control:focus {
+  border-color: #20b2aa;
+  box-shadow: 0 0 0 0.2rem rgba(32, 178, 170, 0.25);
+}
+
+.btn {
+  border-radius: 8px;
+  padding: 0.75rem;
+  font-weight: 600;
+  transition: background-color 0.3s ease, border-color 0.3s ease,
+              box-shadow 0.3s ease;
+}
+
+.btn-success {
+  background-color: #20b2aa !important;
+  border-color: #20b2aa !important;
+}
+
+.btn-success:hover:not(:disabled) {
+  background-color: #1a9999 !important;
+  border-color: #1a9999 !important;
+  box-shadow: 0 5px 15px rgba(32, 178, 170, 0.3);
+}
+
+.btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+a {
+  color: #6c757d !important;
+  font-size: 0.9rem;
+  text-decoration: none !important;
+  transition: color 0.3s ease;
+}
+
+a:hover {
+  color: #20b2aa !important;
+}
+
+.display-6 {
+  color: #20b2aa !important;
+}
