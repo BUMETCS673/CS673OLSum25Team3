@@ -31,7 +31,9 @@ def register(request):
     if request.method == 'POST':
         form = CustomUserCreationForm(request.POST)
         if form.is_valid():
-            form.save()
+            user = form.save()
+            user.email = form.cleaned_data['email']  
+            user.save()
             Patient.objects.create(
                 username=form.cleaned_data['username'],
                 first_name=form.cleaned_data['firstname'],
