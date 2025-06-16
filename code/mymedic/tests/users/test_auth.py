@@ -17,7 +17,7 @@ def user(db):
 
 @pytest.mark.django_db
 @pytest.mark.parametrize("url_name", [
-    ("mlogin"),
+    ("login"),
     ("register"),
 ])
 def test_public_pages(client, url_name):

@@ -76,7 +76,7 @@ def test_medical_records_requires_login(client):
     """Test that medical records page requires authentication"""
     response = client.get('/records/')
     assert response.status_code == 302
-    assert 'mlogin' in response.url
+    assert 'login' in response.url
 
 
 @pytest.mark.django_db

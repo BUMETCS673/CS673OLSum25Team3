@@ -19,8 +19,8 @@ class CustomUserCreationForm(UserCreationForm):
     Inherits from Django's UserCreationForm.
     """
     username = forms.CharField(widget=TextInput(attrs={'placeholder': 'Username', 'class': 'form-control'}))
-    firstname = forms.CharField(widget=TextInput(attrs={'placeholder': 'First Name', 'class': 'form-control'}))
-    lastname = forms.CharField(widget=TextInput(attrs={'placeholder': 'Last Name', 'class': 'form-control'}))
+    first_name = forms.CharField(widget=TextInput(attrs={'placeholder': 'First Name', 'class': 'form-control'}))
+    last_name = forms.CharField(widget=TextInput(attrs={'placeholder': 'Last Name', 'class': 'form-control'}))
     email = forms.EmailField(widget=EmailInput(attrs={'placeholder': 'Email', 'class': 'form-control'}))
     password1 = forms.CharField(widget=PasswordInput(attrs={'placeholder': 'Password', 'class': 'form-control'}))
     password2 = forms.CharField(widget=PasswordInput(attrs={'placeholder': 'Confirm Password', 'class': 'form-control'}))
@@ -38,8 +38,8 @@ class CustomUserUpdateForm(forms.Form):
     Custom form for updating user information.
     Inherits from Django's ModelForm.
     """
-    firstname = forms.CharField(widget=TextInput(attrs={'placeholder': 'First Name', 'class': 'form-control'}))
-    lastname = forms.CharField(widget=TextInput(attrs={'placeholder': 'Last Name', 'class': 'form-control'}))
+    first_name = forms.CharField(widget=TextInput(attrs={'placeholder': 'First Name', 'class': 'form-control'}))
+    last_name = forms.CharField(widget=TextInput(attrs={'placeholder': 'Last Name', 'class': 'form-control'}))
     email = forms.EmailField(widget=TextInput(attrs={'placeholder': 'Email', 'class': 'form-control'}))
     phone = forms.CharField(widget=TextInput(attrs={'placeholder': 'Phone Number', 'class': 'form-control'}),
                             validators=[RegexValidator(regex=r'^\d{10}$', message='Phone number must be 10 digits.')])

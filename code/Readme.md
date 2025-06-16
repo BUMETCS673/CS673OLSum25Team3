@@ -17,33 +17,15 @@ cp .env.example .env
 ```
 
 Edit `.env` and add a DJANGO_SECRET_KEY generated from [Django Secret Key Generator](https://djecrety.ir/).
----
-
-### 3. Build the Docker Image
-
-```bash
-docker build -t mymedic .
-```
 
 ---
 
-### 4. Run the Server
-
-#### Running Tests
-```bash
-docker run --rm mymedic pytest -v tests/
-```
-
-#### Run in Development Mode
-
-```bash
-docker compose -f docker-compose-dev.yml up -d
-```
+### 3. Run the Server
 
 #### Run in Production Mode
 
 ```bash
-docker compose up -d
+docker compose up --build
 ```
 
-This binds the local website code into the container and serves it at `http://127.0.0.1:8080`.
+This binds the local website code into the container and serves it at `http://localhost:8080`.
