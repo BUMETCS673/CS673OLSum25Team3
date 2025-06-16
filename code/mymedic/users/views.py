@@ -43,6 +43,7 @@ def login_api(request):
     username = request.data.get("username")
     password = request.data.get("password")
     user     = authenticate(username=username, password=password)
+    
     if user:
         request.session['pre_mfa_user_id'] = user.id
         code = str(random.randint(100000, 999999))
@@ -51,27 +52,21 @@ def login_api(request):
         logger.debug(f"Generated MFA Code: {code}")
 
         try:
-            result = send_mail(
+            send_mail(
                 "Your MyMedic MFA Code",
                 f"Your verification code is: {code}",
                 settings.DEFAULT_FROM_EMAIL,
                 [user.email],
                 fail_silently=False
             )
-            logger.debug(f"Result of sending email {result}")
+            logger.debug(f"MFA email sent to {user.email}")
         except Exception as e:
             logger.error("Failed to send MFA email", exc_info=True)
-        return Response(status=200)
-        # django_login(request, user)
-        # refresh = RefreshToken.for_user(user)
-        # request.session['access_token'] = str(refresh.access_token)
-        # return Response({
-        #     "refresh": str(refresh),
-        #     "access":  str(refresh.access_token),
-        #     "username": user.username,
-        #     "full_name": f"{user.first_name} {user.last_name}"
-        # })
+        
+        return Response({"message": "MFA code sent"}, status=200)
+
     return Response({"error": "Invalid credentials"}, status=400)
+
 
 
 @never_cache
@@ -310,28 +305,30 @@ def mfa_page(request):
 
 @api_view(['POST'])
 def api_mfa_verify(request):
-    """
-    Verify the MFA code sent via email
-    """
-    # TODO: Is this really the right way, resending the username and password in the request?
-    username=request.data.get("username")
-    password=request.data.get("password")
-    user = authenticate(username, password)
-    code=request.data.get("code")
+    code = request.data.get("code")
+    expected_code = request.session.get("mfa_code")
+    user_id = request.session.get("pre_mfa_user_id")
 
-    # TODO: Figure out how to keep the expected MFA Code, do we send it in the response?
-    # That seems like a vulnerability?
-    expected_code = request.data.get("expected_mfa_code")
+    if not (code and expected_code and user_id):
+        return Response({"error": "Session expired or invalid"}, status=400)
 
-    if code == expected_code:
+    if code != expected_code:
+        return Response({"error": "Invalid MFA code"}, status=400)
+
+    try:
+        user = User.objects.get(id=user_id)
         django_login(request, user)
         refresh = RefreshToken.for_user(user)
         request.session['access_token'] = str(refresh.access_token)
+
+        del request.session['mfa_code']
+        del request.session['pre_mfa_user_id']
+
         return Response({
             "refresh": str(refresh),
             "access":  str(refresh.access_token),
             "username": user.username,
             "full_name": f"{user.first_name} {user.last_name}"
         })
-    else:
-        return Response({"error": "Invalid MFA Code"}, status=400)
+    except User.DoesNotExist:
+        return Response({"error": "User not found"}, status=404)
