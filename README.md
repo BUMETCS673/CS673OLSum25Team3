@@ -62,7 +62,6 @@ Using TrunkFlow:
 ## Tools & Infrastructure
 
 - GitHub (Version Control)
-- Jira (Issue Tracking)
 - Google Drive (Collaboration)
 - Discord (Team Communication)
 - Docker (Containerization)
@@ -78,14 +77,9 @@ Risks Identified:
 
 ## Project Status
 
-- Tech stack selected
-- Risks identified and mitigation planned
-- Drafted user stories and requirements
-- Team onboarding new member
+- Critical Patient Features Implemented
+- Additional security features implemented
+- Testing and deployment scripts implemented
 
 ### Next Steps
-- Refine requirements and user stories
-- Draft SDD (Software Design Document)
-- Draft STD (Software Test Document)
-- Create UI mockups
-- Begin container and environment setup
+- Implement Doctor Features
