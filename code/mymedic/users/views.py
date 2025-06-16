@@ -1,9 +1,11 @@
 import json
 import logging
+import random
 from datetime import datetime
 
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse, JsonResponse
+from django.contrib import messages
 from django.contrib.auth import authenticate, login as django_login, logout as django_logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
@@ -21,8 +23,10 @@ from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework_simplejwt.exceptions import InvalidToken, TokenError
 
 from .models import Patient, PasswordResetToken
-from .forms import CustomUserUpdateForm
+from .forms import CustomUserUpdateForm, MFAForm
 from users.models import Appointment
+from django import forms
+
 
 logger = logging.getLogger(__name__)
 
@@ -39,17 +43,30 @@ def login_api(request):
     username = request.data.get("username")
     password = request.data.get("password")
     user     = authenticate(username=username, password=password)
+    
     if user:
-        django_login(request, user)
-        refresh = RefreshToken.for_user(user)
-        request.session['access_token'] = str(refresh.access_token)
-        return Response({
-            "refresh": str(refresh),
-            "access":  str(refresh.access_token),
-            "username": user.username,
-            "full_name": f"{user.first_name} {user.last_name}"
-        })
+        request.session['pre_mfa_user_id'] = user.id
+        code = str(random.randint(100000, 999999))
+        request.session['mfa_code'] = code
+
+        logger.debug(f"Generated MFA Code: {code}")
+
+        try:
+            send_mail(
+                "Your MyMedic MFA Code",
+                f"Your verification code is: {code}",
+                settings.DEFAULT_FROM_EMAIL,
+                [user.email],
+                fail_silently=False
+            )
+            logger.debug(f"MFA email sent to {user.email}")
+        except Exception as e:
+            logger.error("Failed to send MFA email", exc_info=True)
+        
+        return Response({"message": "MFA code sent"}, status=200)
+
     return Response({"error": "Invalid credentials"}, status=400)
+
 
 
 @never_cache
@@ -281,3 +298,37 @@ def search_records(request):
 @login_required(login_url='login')
 def medical_records(request):
     return render(request, 'users/medical_records.html')
+
+@never_cache
+def mfa_page(request):
+    return render(request, "users/mfa_verify.html")
+
+@api_view(['POST'])
+def api_mfa_verify(request):
+    code = request.data.get("code")
+    expected_code = request.session.get("mfa_code")
+    user_id = request.session.get("pre_mfa_user_id")
+
+    if not (code and expected_code and user_id):
+        return Response({"error": "Session expired or invalid"}, status=400)
+
+    if code != expected_code:
+        return Response({"error": "Invalid MFA code"}, status=400)
+
+    try:
+        user = User.objects.get(id=user_id)
+        django_login(request, user)
+        refresh = RefreshToken.for_user(user)
+        request.session['access_token'] = str(refresh.access_token)
+
+        del request.session['mfa_code']
+        del request.session['pre_mfa_user_id']
+
+        return Response({
+            "refresh": str(refresh),
+            "access":  str(refresh.access_token),
+            "username": user.username,
+            "full_name": f"{user.first_name} {user.last_name}"
+        })
+    except User.DoesNotExist:
+        return Response({"error": "User not found"}, status=404)

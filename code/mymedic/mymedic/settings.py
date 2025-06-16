@@ -115,3 +115,27 @@ REST_FRAMEWORK = {
 }
 
 CORS_ALLOW_ALL_ORIGINS = True
+
+EMAIL_BACKEND      = os.getenv(
+    "DJANGO_EMAIL_BACKEND",
+    "django.core.mail.backends.console.EmailBackend" if DEBUG else "django.core.mail.backends.smtp.EmailBackend"
+)
+EMAIL_HOST         = os.getenv("DJANGO_EMAIL_HOST", "localhost")
+EMAIL_PORT         = int(os.getenv("DJANGO_EMAIL_PORT", 25))
+EMAIL_HOST_USER    = os.getenv("DJANGO_EMAIL_HOST_USER", "")
+EMAIL_HOST_PASSWORD= os.getenv("DJANGO_EMAIL_HOST_PASSWORD", "")
+EMAIL_USE_TLS      = is_true(os.getenv("DJANGO_EMAIL_USE_TLS", "False"))
+EMAIL_USE_SSL      = is_true(os.getenv("DJANGO_EMAIL_USE_SSL", "False"))
+DEFAULT_FROM_EMAIL = os.getenv("DJANGO_DEFAULT_FROM_EMAIL", EMAIL_HOST_USER)
+SERVER_EMAIL       = os.getenv("DJANGO_SERVER_EMAIL", DEFAULT_FROM_EMAIL)
+
+REST_FRAMEWORK = {
+    "DEFAULT_RENDERER_CLASSES": [
+        "rest_framework.renderers.JSONRenderer",
+    ],
+    "DEFAULT_AUTHENTICATION_CLASSES": (
+        "rest_framework_simplejwt.authentication.JWTAuthentication",
+    ),
+}
+
+CORS_ALLOW_ALL_ORIGINS = True

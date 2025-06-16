@@ -42,6 +42,10 @@ urlpatterns = [
     # Privacy policy
     path('privacy/', views.privacy_policy, name='privacy_policy'),
 
+    # MFA
+    path('mfa_verify/', views.mfa_page, name='mfa_verify'),
+    path('api/mfa_verify', views.api_mfa_verify, name='api_mfa_verify'),
+
     # Default redirect
     path('', root_redirect),
 ]

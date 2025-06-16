@@ -23,7 +23,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const data = await res.json();
 
       if (res.ok) {
-        window.location.href = "/dashboard/";
+        window.location.href = "/mfa_verify/";
       } else {
         loginMsg.textContent = data.error || "Login failed.";
       }
