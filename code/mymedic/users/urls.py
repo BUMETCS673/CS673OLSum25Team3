@@ -1,6 +1,14 @@
 from django.urls import path
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect
+from django.http import HttpResponseRedirect
 from . import views
+
+def root_redirect(request):
+    if request.user.is_authenticated:
+        return redirect('dashboard')
+    else:
+        return redirect('login')
 
 urlpatterns = [
     # User authentication routes
@@ -35,5 +43,5 @@ urlpatterns = [
     path('privacy/', views.privacy_policy, name='privacy_policy'),
 
     # Default redirect
-    path('', lambda request: redirect('login')),
+    path('', root_redirect),
 ]

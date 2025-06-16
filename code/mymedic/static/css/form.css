@@ -1,12 +1,12 @@
 /* Forms */
 .auth-box {
   background: white;
-  padding: 3.5rem;
+  padding: 2.5rem;
   border-radius: 21px;
   box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
-  width: 532px;
+  max-width: 500px;
+  width: 100%;
   backdrop-filter: blur(10px);
-  margin: 10 auto;
 }
 
 .form-control {
