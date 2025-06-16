@@ -106,7 +106,7 @@ def register(request):
             try:
                 dob_date = datetime.strptime(dob, '%Y-%m-%d').date()
             except ValueError:
-                logger.warning(f"Invalid dob: {dob}")
+                logger.warning("Invalid date of birth format provided")
         Patient.objects.create(
             username=user.username,
             first_name=first_name,
@@ -129,24 +129,14 @@ def register(request):
         logger.error(f"Register error: {e}")
         return Response({"error": "Failed to create account"}, status=500)
 
-
 @never_cache
+@login_required(login_url='login')
 def dashboard(request):
-    token = request.COOKIES.get('access_token') or request.session.get('access_token')
-    if not token:
-        return redirect('login')
-    try:
-        jwt_auth = JWTAuthentication()
-        validated_token = jwt_auth.get_validated_token(token)
-        user = jwt_auth.get_user(validated_token)
-        appointments = Appointment.objects.filter(user=user).order_by('date')
-        return render(request, "users/dashboard.html", {
-            'user': user,
-            'appointments': appointments
-        })
-    except (InvalidToken, TokenError):
-        return redirect('login')
-
+    appointments = Appointment.objects.filter(user=request.user).order_by('date')
+    return render(request, "users/dashboard.html", {
+        'user': request.user,
+        'appointments': appointments
+    })
 
 @never_cache
 def forgot_password_page(request):
@@ -225,33 +215,37 @@ def reset_password(request):
 def profile(request):
     user = request.user
     patient_data = Patient.objects.filter(username=user.username).first()
-    user_data    = User.objects.filter(username=user.username).first()
+    user_data = User.objects.filter(username=user.username).first()
+    
     if not patient_data:
         return HttpResponse("Patient data not found", status=404)
 
-    form = CustomUserUpdateForm(initial={
-        "firstname":  patient_data.first_name,
-        "lastname":   patient_data.last_name,
-        "email":      patient_data.email,
-        "phone":      patient_data.phone_number,
-        "birth_date": patient_data.date_of_birth
-    })
     if request.method == 'POST':
         form = CustomUserUpdateForm(request.POST)
         if form.is_valid():
-            patient_data.first_name    = form.cleaned_data["first_name"]
-            patient_data.last_name     = form.cleaned_data["last_name"]
-            patient_data.email         = form.cleaned_data["email"]
-            patient_data.phone_number  = form.cleaned_data["phone"]
+            patient_data.first_name = form.cleaned_data["first_name"]
+            patient_data.last_name = form.cleaned_data["last_name"]
+            patient_data.email = form.cleaned_data["email"]
+            patient_data.phone_number = form.cleaned_data["phone"]
             patient_data.date_of_birth = form.cleaned_data["birth_date"]
-            user_data.first_name       = form.cleaned_data["first_name"]
-            user_data.last_name        = form.cleaned_data["last_name"]
-            user_data.email            = form.cleaned_data["email"]
+
+            user_data.first_name = form.cleaned_data["first_name"]
+            user_data.last_name = form.cleaned_data["last_name"]
+            user_data.email = form.cleaned_data["email"]
+
             patient_data.save()
             user_data.save()
             return redirect("profile")
-    return render(request, 'users/profile.html', {"form": form})
+    else:
+        form = CustomUserUpdateForm(initial={
+            "first_name": patient_data.first_name,
+            "last_name": patient_data.last_name,
+            "email": patient_data.email,
+            "phone": patient_data.phone_number,
+            "birth_date": patient_data.date_of_birth
+        })
 
+    return render(request, 'users/profile.html', {"form": form})
 
 @login_required(login_url='login')
 def cancel_appointment(request, appointment_id):
