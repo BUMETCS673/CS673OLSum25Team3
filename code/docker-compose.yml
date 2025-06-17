@@ -1,0 +1,42 @@
+services:
+  mymedic:
+    container_name: mymedic
+    build: .
+    image: mymedic:latest
+    env_file:
+      - .env
+    restart: unless-stopped
+
+    volumes:
+      - .:/usr/src/mymedic:rw
+      - sqlite-data:/sqlite
+      - staticfiles-data:/usr/share/nginx/html/static
+      - media-data:/usr/share/nginx/html/media
+
+    working_dir: /usr/src/mymedic
+
+    expose:
+      - "8000"
+
+    entrypoint: ["/usr/src/mymedic/docker-entrypoint.sh"]
+    command:   ["/usr/src/mymedic/docker-cmd.sh"]
+
+  nginx:
+    image: nginx:1.25-alpine
+    restart: unless-stopped
+    depends_on:
+      - mymedic
+    ports:
+      - "8080:80"
+    volumes:
+      - staticfiles-data:/usr/share/nginx/html/static:ro
+      - media-data:/usr/share/nginx/html/media:ro
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+
+volumes:
+  sqlite-data:
+    driver: local
+  staticfiles-data:
+    driver: local
+  media-data:
+    driver: local
