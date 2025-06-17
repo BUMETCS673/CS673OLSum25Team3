@@ -66,7 +66,6 @@ Using TrunkFlow:
 ## Tools & Infrastructure
 
 - GitHub (Version Control)
-- Jira (Issue Tracking)
 - Google Drive (Collaboration)
 - Discord (Team Communication)
 - Docker (Containerization)
@@ -82,4 +81,11 @@ Risks Identified:
 
 ## Project Status
 
+- Critical Patient Features Implemented
+- Additional security features implemented
+- Testing and deployment scripts implemented
+
+### Next Steps
+
 - Essential features are all implemented.
+- Implement Doctor Features
