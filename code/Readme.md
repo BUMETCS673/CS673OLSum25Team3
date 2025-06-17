@@ -17,7 +17,9 @@ cp .env.example .env
 ```
 
 Edit `.env` and add a DJANGO_SECRET_KEY generated from [Django Secret Key Generator](https://djecrety.ir/).
-Add the email and app passwords for the Gmail account.
+
+You will need to have another email account ready (not the one you sign up with), along with it's [app password](https://support.google.com/accounts/answer/185833?hl=en), in order for MFA/Reset password to work.
+They will need to be set in the .env file. The .env file can be provided for the purposes of the demo.
 
 ---
 
