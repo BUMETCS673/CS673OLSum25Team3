@@ -21,6 +21,10 @@ MyMedic is a personal medical system designed to help patients by giving them se
 ### Essential
 - User Registration & Login
 - View and Edit Personal Information
+- Schedule and Add Appointments
+- Multi-Factor Authentication
+- Reset Password for safety
+- Download Medical Records
 
 ### Desirable
 - Family Accounts
@@ -36,7 +40,7 @@ MyMedic is a personal medical system designed to help patients by giving them se
 
 ## Technology Stack
 
-- Frontend: JavaScript (React)
+- Frontend: JavaScript
 - Backend: Python (Django)
 - Database: SQLite
 - Authentication: OAuth 2.0
@@ -78,14 +82,4 @@ Risks Identified:
 
 ## Project Status
 
-- Tech stack selected
-- Risks identified and mitigation planned
-- Drafted user stories and requirements
-- Team onboarding new member
-
-### Next Steps
-- Refine requirements and user stories
-- Draft SDD (Software Design Document)
-- Draft STD (Software Test Document)
-- Create UI mockups
-- Begin container and environment setup
+- Essential features are all implemented.
