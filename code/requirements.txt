@@ -1,6 +1,6 @@
 python-dotenv
 coverage==7.8.2
-Django==5.2.1
+Django==5.2.9
 gunicorn==23.0.0
 psycopg2-binary==2.9.10
 pytest-django==4.10.0
